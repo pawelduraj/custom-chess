@@ -1,12 +1,14 @@
 <template>
   <v-app>
-    <router-view/>
+    <ChessBoard></ChessBoard>
   </v-app>
 </template>
 
 <script>
 
+import ChessBoard from "@/components/ChessBoard";
 export default {
-  name: 'App'
+  name: 'App',
+  components: {ChessBoard}
 };
 </script>
