@@ -8,7 +8,7 @@
 import ChessBoard from '../components/ChessBoard.vue';
 
 export default {
-  name: 'Play.vue',
+  name: 'Board',
   components: {ChessBoard}
-}
+};
 </script>
