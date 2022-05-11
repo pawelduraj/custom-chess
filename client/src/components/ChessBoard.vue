@@ -27,7 +27,6 @@ export class piece//Bierka
     this.team = team;//zespol
     this.type = type;//typ bierki
   }
-
 }
 export class Hist_record//zapisana poprzednie ustawienie na szachownicy
 {
@@ -484,7 +483,7 @@ export default {
 
 <template>
   <div>
-  <div class = "row"  v-for = "row in game.get_rows()" :key="row"><Field v-for = "col in game.get_rows()" :key = col :row=row-1 :col=col-1 :image="game.get_image(row - 1, col - 1)"  :reset = game_controll.reset @childToParent="move" /></div>
+  <div class = "row"  v-for = "row in game.get_rows()" :key=row><Field v-for = "col in game.get_rows()" :key = col :row=row-1 :col=col-1 :image="game.get_image(row - 1, col - 1)"  :reset = game_controll.reset @childToParent="move" /></div>
   </div>
 </template>
 <style>
