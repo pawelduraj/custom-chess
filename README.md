@@ -14,9 +14,10 @@ Custom Chess is a platform for creating and playing custom chess variants.
     | Variable | Description | Default |
     | --- | --- | --- |
     | `PORT` | Port to run the server on. | `3000` |
-    | `REDIS_URL` | Connection string for Redis. | `redis://localhost:6379` |
+    | `REDIS_URL` | Connection string for Redis. | `'redis://localhost:6379'` |
+    | `SECRET` | Secret used for signing JWT tokens. | `'secret'` |
 
-5. Run `npm start` in the server directory.
-6. Run `npm install` in the client directory.
-7. Run `npm run build` in the client directory.
-8. Go to `http://localhost:3000` in your browser and discover the new chess variants.
+6. Run `npm start` in the server directory.
+7. Run `npm install` in the client directory.
+8. Run `npm run build` in the client directory.
+9. Go to `http://localhost:3000` in your browser and discover the new chess variants.

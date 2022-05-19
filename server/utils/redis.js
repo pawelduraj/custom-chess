@@ -7,4 +7,4 @@ module.exports.connect = async () => {
     await client.connect();
 };
 
-module.exports.client = client;
+module.exports.client = () => client;
