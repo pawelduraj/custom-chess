@@ -42,7 +42,7 @@ describe('Name Validator', () => {
     expect(isNameValid('abc def ')).to.be.false;
   });
 
-  it('should return true if name starts with a non-space character', () => {
+  it('should return true if name starts and ends with a non-space character', () => {
     expect(isNameValid('abc def')).to.be.true;
   });
 

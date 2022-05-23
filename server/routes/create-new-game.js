@@ -23,14 +23,15 @@ module.exports = async (req, res) => {
     let gameId = getRandomGameId();
 
     let gameData = {
-        status: 'waiting', variant: variant,
+        status: -1, variant: variant,
         players: new Array(variant.players).fill(''), time: {
             limit: time.limit, increment: time.increment, last: 0,
             remaining: new Array(variant.players).fill(time.limit),
         },
         turn: -1, moves: [], board: [],
-        draw: new Array(variant.players).fill(false),
-        rematch: new Array(variant.players).fill(false)
+        draw: new Array(variant.players).fill(0),
+        rematch: new Array(variant.players).fill(0),
+        points: new Array(variant.players).fill(0)
     };
 
     if (color !== -1) gameData.players[color] = name;
@@ -46,6 +47,7 @@ module.exports = async (req, res) => {
         await client().hSet(gameId, 'draw', JSON.stringify(gameData.draw));
         await client().hSet(gameId, 'rematch', JSON.stringify(gameData.rematch));
         await client().hSet(gameId, 'board', JSON.stringify(gameData.board));
+        await client().hSet(gameId, 'points', JSON.stringify(gameData.points));
 
         const token = jwt.sign({gameId: gameId, playerId: color}, process.env.SECRET_KEY, {expiresIn: '24h'});
 

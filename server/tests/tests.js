@@ -9,4 +9,5 @@ describe('Validators', () => {
 describe('Routes', () => {
     require('./route-create-new-game');
     require('./route-join-game');
+    require('./routes/draw');
 });

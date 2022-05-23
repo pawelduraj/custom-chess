@@ -11,7 +11,9 @@ module.exports = (variant) => {
 
     if (!variant.hasOwnProperty('pieces') || !Array.isArray(variant.pieces)) return false;
 
-    if (!variant.pieces.every((piece) => isPieceValid(piece, 999, 4))) return false;
+    if (!variant.pieces.every((piece) => isPieceValid(piece, variant))) return false;
 
     return !(!variant.hasOwnProperty('players') || typeof variant.players !== 'number');
+
+    // TODO create starting position validator
 }
