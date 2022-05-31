@@ -15,5 +15,30 @@ module.exports.STANDARD_VARIANT = {
         {id: 'B', checkable: false, color: 1, field: 58}, {id: 'B', checkable: false, color: 1, field: 61},
         {id: 'Q', checkable: false, color: 1, field: 59}, {id: 'K', checkable: true, color: 1, field: 60}
     ],
-    rules: [] // TODO set standard rules
+    rules: [
+        {id: 'capture-all', value: false},
+        {id: 'castling', value: true},
+        {id: 'multimove', value: [1]}
+    ]
 };
+
+module.exports.STANDARD_STARTING_BOARD = [
+    {id: 'R', checkable: false, color: 0, moved: false}, {id: 'N', checkable: false, color: 0, moved: false},
+    {id: 'B', checkable: false, color: 0, moved: false}, {id: 'Q', checkable: false, color: 0, moved: false},
+    {id: 'K', checkable: true, color: 0, moved: false}, {id: 'B', checkable: false, color: 0, moved: false},
+    {id: 'N', checkable: false, color: 0, moved: false}, {id: 'R', checkable: false, color: 0, moved: false},
+    {id: 'P', checkable: false, color: 0, moved: false}, {id: 'P', checkable: false, color: 0, moved: false},
+    {id: 'P', checkable: false, color: 0, moved: false}, {id: 'P', checkable: false, color: 0, moved: false},
+    {id: 'P', checkable: false, color: 0, moved: false}, {id: 'P', checkable: false, color: 0, moved: false},
+    {id: 'P', checkable: false, color: 0, moved: false}, {id: 'P', checkable: false, color: 0, moved: false},
+    '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-',
+    '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-',
+    {id: 'P', checkable: false, color: 1, moved: false}, {id: 'P', checkable: false, color: 1, moved: false},
+    {id: 'P', checkable: false, color: 1, moved: false}, {id: 'P', checkable: false, color: 1, moved: false},
+    {id: 'P', checkable: false, color: 1, moved: false}, {id: 'P', checkable: false, color: 1, moved: false},
+    {id: 'P', checkable: false, color: 1, moved: false}, {id: 'P', checkable: false, color: 1, moved: false},
+    {id: 'R', checkable: false, color: 1, moved: false}, {id: 'N', checkable: false, color: 1, moved: false},
+    {id: 'B', checkable: false, color: 1, moved: false}, {id: 'Q', checkable: false, color: 1, moved: false},
+    {id: 'K', checkable: true, color: 1, moved: false}, {id: 'B', checkable: false, color: 1, moved: false},
+    {id: 'N', checkable: false, color: 1, moved: false}, {id: 'R', checkable: false, color: 1, moved: false}
+];

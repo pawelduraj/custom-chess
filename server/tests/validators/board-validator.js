@@ -1,7 +1,7 @@
 const chai = require('chai');
 const {expect} = chai;
 
-const isBoardValid = require('../../utils/validators/board-validator');
+const {isBoardValid} = require('../../utils');
 
 describe('Board Validator', () => {
     it('should return false if the board is null or undefined', () => {

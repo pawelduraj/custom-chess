@@ -33,6 +33,8 @@
 }
 ```
 
+---
+
 ### Pieces
 
 | Piece | ID | Movement |

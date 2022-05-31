@@ -1,7 +1,7 @@
 const chai = require('chai');
 const {expect} = chai;
 
-const areRulesValid = require('../../utils/validators/rules-validator');
+const {areRulesValid} = require('../../utils');
 
 describe('Rules Validator', () => {
     it('should return false if rules are null or undefined', () => {

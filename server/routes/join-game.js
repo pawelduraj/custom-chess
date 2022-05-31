@@ -1,27 +1,39 @@
 const jwt = require('jsonwebtoken');
-const isNameValid = require('../utils/validators/name-validator');
+const {parseGame, isNameValid} = require('../utils');
 const {client} = require('../utils/redis');
 
 module.exports = async (req, res) => {
     const {name, gameId} = req.body;
 
-    if (!isNameValid(name)) return res.status(400).json({error: 'Name is not valid'});
+    if (!isNameValid(name))
+        return res.status(400).json({message: 'Name is not valid'});
 
-    if (typeof gameId !== 'string') return res.status(400).json({error: 'Game id is not valid'});
+    if (gameId == null || typeof gameId !== 'string')
+        return res.status(400).json({message: 'Game id is not valid'});
 
     try {
-        let game = await client().hGetAll(gameId);
-        game.players = JSON.parse(game.players);
-        let playerId = game.players.findIndex(player => player === '');
-        if (playerId === -1) return res.status(400).json({error: 'Game is full'});
+        let game = parseGame(await client().hGetAll(`game:${gameId}`));
+
+        let playerId = game.players.findIndex(player => player === '-');
+
+        if (playerId === -1) return res.status(400).json({message: 'Game is full'});
+
         game.players[playerId] = name;
-        await client().hSet(gameId, 'players', JSON.stringify(game.players));
+
+        await client().hSet(`game:${gameId}`, 'players', JSON.stringify(game.players));
+
+        if (game.players.every(p => p !== '-')) {
+            game.status = 0;
+            await client().hSet(`game:${gameId}`, 'status', game.status);
+        }
+
+        await client().publish(`channel:${gameId}`, JSON.stringify(game));
 
         const token = jwt.sign({gameId, playerId}, process.env.SECRET_KEY, {expiresIn: '24h'});
 
-        return res.json({token, invitation: 'http://localhost:3000/game/' + gameId});
+        return res.json({token, gameId, playerId, message: 'OK'});
     } catch (e) {
         console.log(e);
-        return res.sendStatus(500);
+        return res.status(500).json({message: 'Internal server error'});
     }
 };

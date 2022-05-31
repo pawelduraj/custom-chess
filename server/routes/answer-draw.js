@@ -1,5 +1,6 @@
+const jwt = require('jsonwebtoken');
+const {parseGame} = require('../utils');
 const {client} = require('../utils/redis');
-const jwt = require("jsonwebtoken");
 
 module.exports = async (req, res) => {
     const {token, accept} = req.body;
@@ -13,21 +14,20 @@ module.exports = async (req, res) => {
     const {playerId, gameId} = jwt.decode(token);
 
     try {
-        let [gameDraw, gameStatus] = await client().multi().hGet(gameId, 'draw').hGet(gameId, 'status').exec();
-        gameDraw = JSON.parse(gameDraw);
-        gameStatus = parseInt(gameStatus);
+        let game = parseGame(await client().hGetAll(`game:${gameId}`));
 
-        if (gameStatus !== 0)
+        if (game.status !== 0)
             return res.status(400).json({message: 'Game is not in progress'});
 
-        if (gameDraw.every(index => index !== 1))
+        if (game.draw.every(index => index !== 1))
             return res.status(400).json({message: 'Draw offer cannot be answered'});
 
-        gameDraw[playerId] = accept ? 1 : -1;
+        game.draw[playerId] = accept ? 1 : -1;
 
-        await client().hSet(gameId, 'draw', JSON.stringify(gameDraw));
+        await client().hSet(`game:${gameId}`, 'draw', JSON.stringify(game.draw));
+        await client().publish(`channel:${gameId}`, JSON.stringify(game));
 
-        return res.status(200).json({message: 'Draw offer answered'});
+        return res.status(200).json({message: 'OK'});
     } catch (e) {
         console.log(e);
         return res.status(500).json({message: 'Internal server error'});

@@ -13,7 +13,9 @@ module.exports = (variant) => {
 
     if (!variant.pieces.every((piece) => isPieceValid(piece, variant))) return false;
 
-    return !(!variant.hasOwnProperty('players') || typeof variant.players !== 'number');
+    if (!variant.hasOwnProperty('players') || typeof variant.players !== 'number') return false;
 
     // TODO create starting position validator
+
+    return true;
 }

@@ -1,7 +1,7 @@
 const chai = require('chai');
 const {expect} = chai;
 
-const isNameValid = require('../../utils/validators/name-validator');
+const {isNameValid} = require('../../utils');
 
 describe('Name Validator', () => {
   it('should return false if name is null or undefined', () => {

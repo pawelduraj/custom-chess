@@ -1,8 +1,7 @@
 const chai = require('chai');
 const {expect} = chai;
 
-const isPieceValid = require('../../utils/validators/piece-validator');
-
+const {isPieceValid} = require('../../utils');
 const {STANDARD_VARIANT} = require('../consts');
 
 describe('Piece Validator', () => {

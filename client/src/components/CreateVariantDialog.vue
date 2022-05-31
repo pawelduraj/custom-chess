@@ -52,7 +52,7 @@
             <v-card-text>
               Choose type of board for your variant:
               <v-row class="mt-0 pt-0">
-                <!-- TODO filter boards -->
+                <!-- TODO filter board-standard -->
                 <v-col v-for="(board, index) in $store.state.boards" :key="index" cols="12" md="4">
                   <v-card :color="index === boardIndex ? 'primary' : ''" class="d-flex align-center" height="200"
                           @click="selectBoard(index)" outlined>

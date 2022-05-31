@@ -6,8 +6,15 @@ describe('Validators', () => {
     require('./validators/variant-validator');
 });
 
+describe('Parsers', () => {
+    require('./parsers/game-parser');
+});
+
+describe('Boards', () => {
+   require('./board-standard/board');
+});
+
 describe('Routes', () => {
-    require('./route-create-new-game');
-    require('./route-join-game');
-    require('./routes/draw');
+    require('./routes/create-and-join-game');
+    require('./routes/make-move');
 });

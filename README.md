@@ -15,7 +15,7 @@ Custom Chess is a platform for creating and playing custom chess variants.
     | --- | --- | --- |
     | `PORT` | Port to run the server on. | `3000` |
     | `REDIS_URL` | Connection string for Redis. | `'redis://localhost:6379'` |
-    | `SECRET` | Secret used for signing JWT tokens. | `'secret'` |
+    | `SECRET_KEY` | Secret used for signing JWT tokens. | `'secret'` |
 
 6. Run `npm start` in the server directory.
 7. Run `npm install` in the client directory.
