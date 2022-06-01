@@ -2,25 +2,30 @@
 export default {
   name: "Field",
   emits: ['childToParent'],
-  data()
-  {
-    return{
+  data() {
+    return {
       active: false
     }
   },
   props: {
     row: Number,
     col: Number,
-    image: String,
+    image: {String, Boolean},
     reset: Boolean
   },
-  watch: { reset()
-    {
+  watch: {
+    reset() {
       this.active = false;
     }
   },
   methods:
       {
+        Opacity() {
+          if (this.image.hit)
+            return "hitable";
+          else
+            return "";
+        },
         black_or_white() {
           if (this.active === true)
             return "green"
@@ -30,41 +35,47 @@ export default {
             return "grey"
         },
         get_image() {
-          if(this.image === "")
+          if (this.image.image === "")
             return "";
-          return "img/" + this.image;
+          return "img/" + this.image.image;
         },
-        overlight()
-        {
+        overlight() {
           this.active = this.active !== true;
           this.$emit('childToParent', {row: this.row, col: this.col});
         }
-      }
+      },
 }
 </script>
 
 
 <template>
-  <div v-bind:class = "black_or_white()" class = "size" @click = "overlight">
-    <img :src =  "get_image()" alt="">
+  <div v-bind:class="black_or_white()" class="size" @click="overlight">
+    <img v-bind:class="Opacity()" class="hoverPiece" :src="get_image()" alt="">
   </div>
 </template>
 
 
-
 <style>
-.size
-{
-  height: 70px;
-  width: 70px;
+.size {
+  height: 100px;
+  width: 100px;
 }
 </style>
 
 <style scoped>
-img{
-  display: inline-block;
-  vertical-align: middle;
-  height: 70px;
-  width: 70px;
+img {
+  width: 100%;
+}
+
+.hitable {
+  opacity: 0.2;
+}
+
+.hoverPiece {
+  transition: transform .3s;
+}
+
+.hoverPiece:hover {
+  transform: scale(1.1);
 }
 </style>

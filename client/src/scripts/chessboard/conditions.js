@@ -17,6 +17,8 @@ export let not_hit = function (Game, from_x, from_y, to_x, to_y) {
     return (Game.game.get_id_piece(to_x, to_y) === -1);
 }
 export let in_pass_up = function (Game, from_x, from_y, to_x, to_y) {
+    if (typeof Game.history[1] === "undefined")
+        return false;
     let p = Game.game.get_id_piece(from_x, to_y);
     if (p === -1 || to_x < 1 || Game.game.set_of_piece[p].team === Game.game.get_piece(from_x, from_y).team) //czy istnije figura do bicia || czy mozna sie ruszyc dalej || czy naleza do przediwnych druzyn
         return false;
@@ -26,6 +28,8 @@ export let in_pass_up = function (Game, from_x, from_y, to_x, to_y) {
     return false;
 }
 export let in_pass_down = function (Game, from_x, from_y, to_x, to_y) {
+    if (typeof Game.history[1] === "undefined")
+        return false;
     let p = Game.game.get_id_piece(from_x, to_y);
     if (p === -1 || to_x + 1 === Game.game.get_rows() || Game.game.set_of_piece[p].team === Game.game.get_piece(from_x, from_y).team) //czy istnije figura do bicia || czy mozna sie ruszyc dalej || czy naleza do przediwnych druzyn
         return false;

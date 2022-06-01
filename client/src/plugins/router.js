@@ -21,7 +21,21 @@ const routes = [{
     path: '/variants',
     name: 'Variants',
     component: () => import(/* webpackChunkName: "variants" */ '../views/Variants.vue')
-}];
+}, {
+    path: '/boardOnline',
+    name: 'Online',
+    component: () => import(/* webpackChunkName: "variants" */ '../views/BoardOnline.vue')
+}, {
+    path: '/join',
+    name: 'Join',
+    component: () => import(/* webpackChunkName: "variants" */ '../views/Join.vue'),
+}, {
+    path: '/boardOnlinejoin',
+    name: 'boardOnlineJoin',
+    component: () => import(/* webpackChunkName: "variants" */ '../views/BoardOnlineJoin.vue'),
+},
+
+];
 
 const router = new VueRouter({mode: 'history', base: process.env.BASE_URL, routes});
 

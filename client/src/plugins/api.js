@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-axios.baseUrl = 'http://localhost:3000';
+//axios.baseUrl = 'http://localhost:3000';
 
 const api = {
     gameId: '',
@@ -11,14 +11,14 @@ const api = {
 };
 
 api.createNewGame = async function (name, time, variant, color) {
-    let res = await axios.post('/api/create-new-game', {name, time, variant, color});
+    let res = await axios.post('http://localhost:3000/api/create-new-game', {name, time, variant, color});
     api.gameId = res.data.gameId;
     api.playerId = res.data.playerId;
     api.token = res.data.token;
 };
 
 api.joinGame = async function (name, gameId) {
-    let res = await axios.post('/api/join-game', {name, gameId});
+    let res = await axios.post('http://localhost:3000/api/join-game', {name, gameId});
     api.gameId = res.data.gameId;
     api.playerId = res.data.playerId;
     api.token = res.data.token;

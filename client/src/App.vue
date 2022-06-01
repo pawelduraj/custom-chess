@@ -43,7 +43,9 @@ export default {
       {icon: 'mdi-home', title: 'Home', path: '/'},
       {icon: 'mdi-checkerboard', title: 'Variants', path: '/variants'},
       {icon: 'mdi-chess-pawn', title: 'New game', path: '/new-game'},
-      {icon: 'mdi-checkerboard', title: '[DEV] Board', path: '/board'}
+      {icon: 'mdi-checkerboard', title: '[DEV] Board', path: '/board'},
+      {icon: 'mdi-checkerboard', title: '[DEV] Create', path: '/boardOnline'},
+      {icon: 'mdi-checkerboard', title: '[DEV] Join', path: '/join'},
     ]
   })
 };

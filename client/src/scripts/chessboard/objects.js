@@ -32,3 +32,60 @@ export class Hist_record//zapisana poprzednie ustawienie na szachownicy
         this.board = board;
     }
 }
+
+export class GameStatus {
+    isEnd;
+    visable;
+    whoWin;
+    reason;
+
+    constructor() {
+        this.isEnd = false;
+        this.visable = false;
+    }
+
+    setEnd(winner, reason) {
+        this.isEnd = true;
+        this.visable = true;
+        switch (winner) {
+            case -1:
+                this.whoWin = "Gra zakonczyla sie remisem"
+                break;
+            case 0:
+                this.whoWin = "Biały wygrał"
+                break;
+            case 1:
+                this.whoWin = "Czarny wygrał"
+                break;
+        }
+        switch (reason) {
+            case 0:
+                this.reason = "Szach mat";
+                break;
+            case 1:
+                this.reason = "Pat";
+                break;
+            case 2:
+                this.reason = "Powtorzenie pozycji";
+                break;
+            case 3:
+                this.reason = "Poddanie sie";
+                break;
+        }
+    }
+}
+
+export class Interaction {
+    on;
+    in;
+    out;
+
+    constructor() {
+        this.on = false;
+    }
+
+    run(data) {
+        this.in = data;
+        this.on = true;
+    }
+}
