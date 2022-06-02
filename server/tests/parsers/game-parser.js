@@ -69,4 +69,13 @@ describe('Game Parser', () => {
     it('should parse variant to object', () => {
         expect(parsedGame.variant).to.be.an('object');
     });
+
+    it('should return null if game is null or undefined', () => {
+        expect(parseGame(null)).to.be.null;
+        expect(parseGame(undefined)).to.be.null;
+    });
+
+    it('should return null if game is empty object', () => {
+        expect(parseGame({})).to.be.null;
+    });
 });

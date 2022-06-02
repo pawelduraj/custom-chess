@@ -22,9 +22,19 @@ module.exports = async (req, res) => {
         if (game.draw.every(index => index !== 1))
             return res.status(400).json({message: 'Draw offer cannot be answered'});
 
-        game.draw[playerId] = accept ? 1 : -1;
+        if(game.draw[playerId] !== 0)
+            return res.status(400).json({message: 'You have already answered'});
 
+        game.draw[playerId] = accept ? 1 : -1;
         await client().hSet(`game:${gameId}`, 'draw', JSON.stringify(game.draw));
+
+        if (game.draw.every(index => index === 1)) {
+            game.status = 1;
+            game.points = [0.5, 0.5];
+            await client().hSet(`game:${gameId}`, 'status', JSON.stringify(game.status));
+            await client().hSet(`game:${gameId}`, 'points', JSON.stringify(game.points));
+        }
+
         await client().publish(`channel:${gameId}`, JSON.stringify(game));
 
         return res.status(200).json({message: 'OK'});

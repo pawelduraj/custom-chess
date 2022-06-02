@@ -19,13 +19,13 @@ module.exports = async (req, res) => {
         if (game.draw.some(index => index !== 0))
             return res.status(400).json({message: 'Draw offer cannot be made'});
 
-        if (Math.floor(game.turn) % game.draw.length !== 0)
+        if (Math.floor(game.turn) % game.draw.length !== playerId)
             return res.status(400).json({message: 'It is not your turn'});
 
         game.draw[playerId] = 1;
 
         await client().hSet(`game:${gameId}`, 'draw', JSON.stringify(game.draw));
-        await client().publish(`game:${gameId}`, JSON.stringify(game));
+        await client().publish(`channel:${gameId}`, JSON.stringify(game));
 
         return res.status(200).json({message: 'OK'});
     } catch (e) {

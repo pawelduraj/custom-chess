@@ -14,6 +14,9 @@ module.exports = async (req, res) => {
     try {
         let game = parseGame(await client().hGetAll(`game:${gameId}`));
 
+        if (game == null)
+            return res.status(400).json({message: 'Game does not exist'});
+
         let playerId = game.players.findIndex(player => player === '-');
 
         if (playerId === -1) return res.status(400).json({message: 'Game is full'});

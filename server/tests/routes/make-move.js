@@ -69,7 +69,7 @@ describe('POST /api/make-move', () => {
 
     it('should allow to play e4 by first player', (done) => {
         request(app).post('/api/make-move').send({
-            token: firstPlayerData.token, move: {from: 12, to: 20, promote: '-'}
+            token: firstPlayerData.token, from: 12, to: 20, promote: '-'
         }).end((err, res) => {
             expect(res.body).to.have.property('message', 'OK');
             expect(res).to.have.status(200);

@@ -17,4 +17,7 @@ describe('Boards', () => {
 describe('Routes', () => {
     require('./routes/create-and-join-game');
     require('./routes/make-move');
+    require('./routes/offer-and-answer-draw');
+    require('./routes/give-up');
+    require('./routes/offer-and-answer-rematch');
 });

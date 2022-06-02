@@ -51,6 +51,18 @@ api.listen = async function (update) {
     api.sse = new EventSource(baseUrl + `/api/listen?gameId=${api.gameId}`);
     api.sse.onmessage = function (event) {
         api.game = JSON.parse(event.data);
+
+        if (api.game.status === 0)
+            localStorage.setItem('game', JSON.stringify({gameId: api.gameId, playerId: api.playerId, token: api.token}));
+        else localStorage.removeItem('game');
+
+        if (api.game.new != null) {
+            api.gameId = api.game.new.gameId;
+            api.playerId = (api.playerId + 1) % api.game.players.length;
+            api.token = api.game.new.tokens[api.playerId];
+            localStorage.setItem('game', JSON.stringify({gameId: api.gameId, playerId: api.playerId, token: api.token}));
+        }
+
         update(api.game);
     };
 }

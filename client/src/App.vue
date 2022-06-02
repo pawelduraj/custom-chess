@@ -10,10 +10,10 @@
     <!-- Navigation drawer -->
     <v-navigation-drawer v-model="drawer" app>
       <v-list-item>
-        <v-list-item-title>
-          <v-text-field prepend-icon="mdi-account" counter="16" dense filled rounded hide-details class="mt-2 mb-2"
-                        v-model="name" @input="saveName()"/>
-        </v-list-item-title>
+        <v-list-item-title>{{ name }}</v-list-item-title>
+        <v-list-item-icon>
+          <v-icon @click="dialog = true">mdi-pencil</v-icon>
+        </v-list-item-icon>
       </v-list-item>
       <v-divider/>
       <v-list dense nav>
@@ -31,6 +31,25 @@
       <router-view/>
     </v-main>
 
+    <!-- Name dialog -->
+    <v-dialog v-model="dialog" persistent max-width="500px">
+      <v-card>
+        <v-card-title>Enter your name</v-card-title>
+        <v-card-text>
+          <v-text-field prepend-icon="mdi-account" counter="16" dense filled rounded class="mt-2 mb-n2"
+                        v-model="name" @input="saveName()"/>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer/>
+          <v-btn color="primary" min-width="100" @click="dialog = false"
+                 :disabled="name.trim().length < 4 || name.trim().length > 16">
+            OK
+          </v-btn>
+          <v-spacer/>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
   </v-app>
 </template>
 
@@ -38,18 +57,41 @@
 export default {
   name: 'App',
   data: () => ({
-    drawer: null, name: '', editName: false,
-    options: [
+    drawer: null, dialog: false, name: '', options: [
       {icon: 'mdi-checkerboard', title: 'Variants', path: '/variants'},
       {icon: 'mdi-chess-pawn', title: 'New game', path: '/new-game'},
       {icon: 'mdi-checkerboard', title: '[DEV] Board', path: '/board'},
     ]
   }),
+  computed: {
+    localName() {
+      return localStorage.getItem('name') || '';
+    }
+  },
   mounted() {
-    this.name = localStorage.getItem('name') || 'Anonymous';
+    // Load name from local storage
+    this.name = this.localName;
+    if (this.name === '') this.dialog = true;
+
+    // Load online game if exists
+    // TODO temporarily disabled for testing
+    /* let game = localStorage.getItem('game');
+    if (game) {
+      this.$api.gameId = JSON.parse(game).gameId;
+      this.$api.playerId = JSON.parse(game).playerId;
+      this.$api.token = JSON.parse(game).token;
+      this.$api.listen((game) => {
+        if (game.status === 0) {
+          this.$store.state.game.variant = game.variant;
+          this.$store.state.game.online = true;
+          this.$router.push('/play-online');
+        } else localStorage.removeItem('game');
+      }).catch(() => localStorage.removeItem('game'));
+    } */
   },
   methods: {
     saveName() {
+      this.name = this.name.trim();
       localStorage.setItem('name', this.name);
     }
   }

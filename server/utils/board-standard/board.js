@@ -39,6 +39,7 @@ function goToNextTurnAndReturnGame(game, {from, to, promote, time}) {
     game.moves.push({from, to, promote});
     game.time.remaining[playerId] -= time - game.time.last;
     game.time.last = new Date().getTime();
+    game.draw = new Array(game.players.length).fill(0);
 
     return game;
 }
