@@ -15,6 +15,7 @@ export class Game_Control//klasa kontrulujaca zasady gry
     GameStatus;
     Interaction;
     updateStore;
+    myTeam;
 
     constructor(vueBoard, game, rules, events, endCondition, isSet) {
         this.vueBoard = vueBoard;
@@ -34,6 +35,12 @@ export class Game_Control//klasa kontrulujaca zasady gry
             this.game.set_every_move(this);
         this.GameStatus = new GameStatus();
         this.Interaction = new Interaction();
+        if(vueBoard.online)
+        {
+            this.myTeam = 0;
+        }
+        else
+            this.myTeam = -1;
     }
 
 
@@ -59,8 +66,10 @@ export class Game_Control//klasa kontrulujaca zasady gry
         return false;
     }
 
-    is_your_turn(Id_piece) {
-        if (this.game.set_of_piece[Id_piece].team === this.n_move % 2)
+    isYourPiece(idPiece) {
+        if(idPiece === -1)
+            return false;
+        if (this.game.set_of_piece[idPiece].team === this.n_move % 2)
             return true;
         else
             return false;
@@ -81,11 +90,27 @@ export class Game_Control//klasa kontrulujaca zasady gry
     packMove(m){
         return (this.game.get_rows() - m.row - 1) * this.game.get_cols() + m.col;
     }
-
-    sendMove(from, to)
+    async waitForServer(gameIn)
     {
-        if(this.vueBoard.online === true)
-        this.vueBoard.$api.makeMove(this.packMove(from), this.packMove(to), null);
+        if(this.history.length === gameIn.moves.length + 1)
+            this.vueBoard.$api.listen(this.waitForServer);
+        else
+            this.update(gameIn);
+
+    }
+    update(Game) {
+        {
+            this.move(this.vueBoard.getPosition(Game.moves[0].from));
+            this.move(this.vueBoard.getPosition(Game.moves[0].to));
+        }
+    }
+    async sendMove(from, to)
+    {
+        if(this.vueBoard.online)
+        {
+            await this.vueBoard.$api.makeMove(this.packMove(from), this.packMove(to), "-");
+            await this.vueBoard.$api.listen(this.waitForServer);
+        }
     }
 
     saveMove(from, to){
@@ -95,7 +120,6 @@ export class Game_Control//klasa kontrulujaca zasady gry
 
     accept_move(from, to) {
         this.vueBoard.$emit("messageFromChild", this.saveMove(from, to));
-        this.sendMove(from, to);
         let My_piece = this.game.get_id_piece(from.row, from.col);
         this.game.set_of_piece[My_piece].c_moves++;
         this.game.set_piece(to.row, to.col, My_piece);
@@ -112,6 +136,7 @@ export class Game_Control//klasa kontrulujaca zasady gry
         this.n_move++;
         this.game.set_every_move(this);
         this.EndGameCheck();
+        this.sendMove(from, to);
     }
 
     look_back() {
@@ -163,7 +188,7 @@ export class Game_Control//klasa kontrulujaca zasady gry
             return;
         }
         if (this.activePiece.row === -1) {
-            if (this.game.get_id_piece(value.row, value.col) === -1 || !this.is_your_turn(this.game.get_id_piece(value.row, value.col)) || this.GameStatus.isEnd)
+            if (!this.isYourTurn() || !this.isYourPiece(this.game.get_id_piece(value.row, value.col)) || this.GameStatus.isEnd)
                 return;
             this.activePiece.row = value.row;
             this.activePiece.col = value.col;
@@ -177,6 +202,12 @@ export class Game_Control//klasa kontrulujaca zasady gry
             this.activePiece = {row: -1, col: -1}
             this.reset = !this.reset;
         }
+    }
+    isYourTurn(){
+        if( this.myTeam === -1 || this.myTeam === this.n_move % 2)
+            return true;
+        else
+            return false;
     }
 }
 

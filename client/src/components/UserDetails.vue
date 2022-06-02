@@ -1,7 +1,7 @@
 <template>
   <v-card class="userContainer" flat>
     <v-divider></v-divider>
-    <v-row justify="left">
+    <v-row >
       <v-img class="avatar" contain :aspect-ratio="1" max-height="80px" max-width="80px" gradient
              src="https://cdn.vuetifyjs.com/images/john.jpg"
              alt="John"

@@ -27,7 +27,7 @@ export default {
   props: {
     message: Number,
     reset: Boolean,
-    online: Number,
+    online: Boolean,
     variant: Object,
   },
   watch: {
@@ -36,19 +36,7 @@ export default {
     },
   },
   data() {//utworzenie przykladowej gry
-    let game_controll = null;
-    if (this.online > 0) {
-      if (this.online === 1) {
-        this.$api.createNewGame("Gracz1", {limit: 3, increment: 2}, this.variant, 0);
-        game_controll = this.Load(this.variant);
-      } else {
-        this.$api.joinGame("Gracz2", "sadada");
-        this.$api.listen(this.Update);
-        game_controll = this.Load(this.variant);
-      }
-    } else {
-      game_controll = this.Load(this.variant);
-    }
+    let game_controll = this.Load(this.variant);
 
     return {
       game_controll,
@@ -68,14 +56,6 @@ export default {
           this.game_controll.game.change_piece(this.game_controll.Interaction.in, type);
           this.game_controll.game.set_every_move(this.game_controll)
           this.game_controll.EndGameCheck()
-        },
-        Update(Game) {
-          if (this.game_controll === null) {
-            this.game_controll = this.Load(Game.variant);
-          } else {
-            this.game_controll.move({row: 1, col: 1});
-            this.game_controll.move({row: 1, col: 1});
-          }
         },
         Load(variant) {
           let Types = [
@@ -140,7 +120,6 @@ export default {
           }
         },
         move(value) {
-          console.log(this.$api.gameId)
           this.game_controll.move(value);
         }
       },
