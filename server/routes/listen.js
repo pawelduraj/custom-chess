@@ -23,6 +23,6 @@ module.exports = async (req, res) => {
         await subscriber.subscribe(`channel:${gameId}`, (game) => res.write(`data: ${game}\n\n`));
     } catch (e) {
         console.log(e);
-        return res.status(500).json({message: 'Internal server error'});
+        // return res.status(500).json({message: 'Internal server error'});
     }
 };

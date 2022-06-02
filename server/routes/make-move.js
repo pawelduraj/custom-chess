@@ -3,7 +3,8 @@ const {boardStandard, parseGame} = require('../utils');
 const {client} = require('../utils/redis');
 
 module.exports = async (req, res) => {
-    const {token, move} = req.body;
+    const {token, from, to, promote} = req.body;
+    const move = {from, to, promote};
 
     const moveTime = new Date().getTime();
 
