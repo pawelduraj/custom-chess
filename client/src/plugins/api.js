@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-//axios.baseUrl = 'http://localhost:3000';
+const baseUrl = 'http://localhost:3000';
 
 const api = {
     gameId: '',
@@ -11,41 +11,44 @@ const api = {
 };
 
 api.createNewGame = async function (name, time, variant, color) {
-    let res = await axios.post('http://localhost:3000/api/create-new-game', {name, time, variant, color});
+    name = localStorage.getItem('name') || 'Anonymous';
+    let res = await axios.post(baseUrl + '/api/create-new-game', {name, time, variant, color});
     api.gameId = res.data.gameId;
     api.playerId = res.data.playerId;
     api.token = res.data.token;
 };
 
 api.joinGame = async function (name, gameId) {
-    let res = await axios.post('http://localhost:3000/api/join-game', {name, gameId});
+    name = localStorage.getItem('name') || 'Anonymous';
+    let res = await axios.post(baseUrl + '/api/join-game', {name, gameId});
     api.gameId = res.data.gameId;
     api.playerId = res.data.playerId;
     api.token = res.data.token;
 };
 
 api.offerDraw = async function () {
-    await axios.post('/api/offer-draw', {token: api.token});
+    await axios.post(baseUrl + '/api/offer-draw', {token: api.token});
 };
 
 api.offerRematch = async function () {
-    await axios.post('/api/offer-rematch', {token: api.token});
+    await axios.post(baseUrl + '/api/offer-rematch', {token: api.token});
 };
 
 api.answerDraw = async function (accept) {
-    await axios.post('/api/answer-draw', {token: api.token, accept});
+    await axios.post(baseUrl + '/api/answer-draw', {token: api.token, accept});
 };
 
 api.giveUp = async function () {
-    await axios.post('/api/give-up', {token: api.token});
+    await axios.post(baseUrl + '/api/give-up', {token: api.token});
 };
 
 api.makeMove = async function (from, to, promote) {
-    await axios.post('/api/make-move', {token: api.token, from, to, promote});
+    await axios.post(baseUrl + '/api/make-move', {token: api.token, from, to, promote});
 };
 
 api.listen = async function (update) {
-    api.sse = new EventSource(`http://localhost:3000/api/listen?gameId=${api.gameId}`);
+    if (api.sse != null && api.sse.readyState === 1) await api.disconnect();
+    api.sse = new EventSource(baseUrl + `/api/listen?gameId=${api.gameId}`);
     api.sse.onmessage = function (event) {
         api.game = JSON.parse(event.data);
         update(api.game);

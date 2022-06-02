@@ -10,10 +10,10 @@
     <!-- Navigation drawer -->
     <v-navigation-drawer v-model="drawer" app>
       <v-list-item>
-        <v-list-item-title>Anonymous</v-list-item-title>
-        <v-list-item-icon>
-          <v-icon @click="drawer = drawer">mdi-pencil</v-icon>
-        </v-list-item-icon>
+        <v-list-item-title>
+          <v-text-field prepend-icon="mdi-account" counter="16" dense filled rounded hide-details class="mt-2 mb-2"
+                        v-model="name" @input="saveName()"/>
+        </v-list-item-title>
       </v-list-item>
       <v-divider/>
       <v-list dense nav>
@@ -38,15 +38,20 @@
 export default {
   name: 'App',
   data: () => ({
-    drawer: null,
+    drawer: null, name: '', editName: false,
     options: [
-      {icon: 'mdi-home', title: 'Home', path: '/'},
       {icon: 'mdi-checkerboard', title: 'Variants', path: '/variants'},
       {icon: 'mdi-chess-pawn', title: 'New game', path: '/new-game'},
       {icon: 'mdi-checkerboard', title: '[DEV] Board', path: '/board'},
-      {icon: 'mdi-checkerboard', title: '[DEV] Create', path: '/boardOnline'},
-      {icon: 'mdi-checkerboard', title: '[DEV] Join', path: '/join'},
     ]
-  })
+  }),
+  mounted() {
+    this.name = localStorage.getItem('name') || 'Anonymous';
+  },
+  methods: {
+    saveName() {
+      localStorage.setItem('name', this.name);
+    }
+  }
 };
 </script>

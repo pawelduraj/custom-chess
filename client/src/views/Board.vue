@@ -4,7 +4,7 @@
            justify="center">
       <v-col>
         <UserDetails/>
-        <ChessBoard :variant="this.variant" :online=0 :message="mChessBoard" :reset="resetChessBoard"
+        <ChessBoard :variant="this.variant" :online="this.online" :message="mChessBoard" :reset="resetChessBoard"
                     @messageFromChild="getMessageChessBoard"/>
         <UserDetails/>
       </v-col>
@@ -40,9 +40,9 @@ export default {
     }
   },
   data() {
-    let variant = {
-      players: 2,
-      board: {id: 's', params: [{id: 'w', value: 8}, {id: 'h', value: 8}]},
+    let variant = this.$store.state.game.variant || {
+      name: 'Standard', players: 2,
+      board: {name: '8x8', id: 's', params: [{id: 'w', value: 8}, {id: 'h', value: 8}]},
       pieces: [
         {id: 'R', checkable: false, color: 0, field: 0}, {id: 'R', checkable: false, color: 0, field: 7},
         {id: 'N', checkable: false, color: 0, field: 1}, {id: 'N', checkable: false, color: 0, field: 6},
@@ -55,20 +55,25 @@ export default {
         {id: 'R', checkable: false, color: 1, field: 56}, {id: 'R', checkable: false, color: 1, field: 63},
         {id: 'N', checkable: false, color: 1, field: 57}, {id: 'N', checkable: false, color: 1, field: 62},
         {id: 'B', checkable: false, color: 1, field: 58}, {id: 'B', checkable: false, color: 1, field: 61},
-        {id: 'Q', checkable: false, color: 1, field: 59}, {id: 'K', checkable: true, color: 1, field: 60}
+        {id: 'Q', checkable: false, color: 1, field: 59}, {id: 'K', checkable: true, color: 1, field: 60},
+        {id: 'P', checkable: false, color: 1, field: 48}, {id: 'P', checkable: false, color: 1, field: 49},
+        {id: 'P', checkable: false, color: 1, field: 50}, {id: 'P', checkable: false, color: 1, field: 51},
+        {id: 'P', checkable: false, color: 1, field: 52}, {id: 'P', checkable: false, color: 1, field: 53},
+        {id: 'P', checkable: false, color: 1, field: 54}, {id: 'P', checkable: false, color: 1, field: 55}
       ],
       rules: [
         {id: 'capture-all', value: false},
         {id: 'castling', value: true},
         {id: 'multimove', value: [1]}
       ]
-    }
+    };
+    let online = this.$store.state.game.online || false;
     return {
       mChessBoard: 0,
       resetChessBoard: false,
       mDetails: null,
       resetDetails: false,
-      variant
+      variant, online
     }
   },
   components: {GameDetails, UserDetails, ChessBoard}

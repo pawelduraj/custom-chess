@@ -5,7 +5,7 @@
 
       <!-- Create variant -->
       <template v-slot:top>
-        <v-toolbar dense flat rounded color="primary">
+        <v-toolbar dense flat color="primary">
           <v-toolbar-title>Variants</v-toolbar-title>
           <v-spacer/>
           <v-btn outlined class="mr-n2" @click="$refs.createVariantDialog.openDialog();">
@@ -18,8 +18,8 @@
       <!-- Variant actions -->
       <!--suppress HtmlUnknownAttribute -->
       <template v-slot:item.actions="{item}">
-        <v-icon class="mr-2" @click="expanded = []">mdi-delete</v-icon>
-        <v-icon class="mr-2" @click="expanded = [item]">mdi-information</v-icon>
+        <v-icon v-if="item.id != null" color="primary" class="mr-2" @click="deleteVariant(item.id)">mdi-delete</v-icon>
+        <v-icon class="mr-2" color="primary" @click="expanded = expanded.length === 0 ? [item] : []">mdi-information</v-icon>
       </template>
 
       <!-- Variant description -->
@@ -27,7 +27,7 @@
         <td :colspan="headers.length" class="ma-0 pa-0">
           <v-card flat tile>
             <v-card-title>{{ item.name }}</v-card-title>
-            <v-card-subtitle>{{ item.players }} players, {{ item.board }} board</v-card-subtitle>
+            <v-card-subtitle>{{ item.players }} players, {{ item.board.name }} board</v-card-subtitle>
             <v-card-text>
               Variant description.
             </v-card-text>
@@ -52,13 +52,18 @@ export default {
     headers: [
       {text: 'Name', align: 'left', sortable: false, value: 'name'},
       {text: 'Players', align: 'left', sortable: false, value: 'players'},
-      {text: 'Board', align: 'left', sortable: false, value: 'board'},
+      {text: 'Board', align: 'left', sortable: false, value: 'board.name'},
       {text: 'Actions', align: 'right', sortable: false, value: 'actions'}
     ], expanded: []
   }),
   computed: {
     items() {
       return this.$store.state.variants;
+    }
+  },
+  methods: {
+    deleteVariant(variantId) {
+      this.$store.dispatch('deleteVariant', variantId);
     }
   }
 };
