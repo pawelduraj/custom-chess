@@ -29,7 +29,7 @@ export default {
         black_or_white() {
           if (this.active === true)
             return "green"
-          if ((this.row + this.col) % 2 === 1)
+          if ((this.row + this.col) % 2 === 0)
             return "white"
           else
             return "grey"

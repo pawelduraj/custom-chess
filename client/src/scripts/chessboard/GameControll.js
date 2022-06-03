@@ -30,19 +30,33 @@ export class Game_Control//klasa kontrulujaca zasady gry
         this.reset = false;
         this.history.unshift(this.copy_board(game.board));
         this.idx_history = 0;
-        if (isSet === false) ;
-        else
+        if (isSet)
             this.game.set_every_move(this);
         this.GameStatus = new GameStatus();
         this.Interaction = new Interaction();
         if(vueBoard.online)
         {
-            this.myTeam = 0;
+            if(vueBoard.$api.playerId === 0)
+                this.myTeam = 0;
+            else
+            {
+                this.myTeam = 1;
+                if (isSet)
+                    vueBoard.$api.listenObj(this.waitForServer, this);
+            }
         }
         else
             this.myTeam = -1;
     }
 
+    Surrender()
+    {
+
+        if(this.vueBoard.online)
+            this.GameStatus.setEnd(this.myTeam ,3)
+        else
+            this.GameStatus.setEnd((this.n_move + 1) % 2, 3)
+    }
 
     EndGameCheck(){
         for(let i = 0; i < this.endCondition.length; i++)
@@ -90,26 +104,32 @@ export class Game_Control//klasa kontrulujaca zasady gry
     packMove(m){
         return (this.game.get_rows() - m.row - 1) * this.game.get_cols() + m.col;
     }
-    async waitForServer(gameIn)
+    async waitForServer(gameIn, myGame)
     {
-        if(this.history.length === gameIn.moves.length + 1)
-            this.vueBoard.$api.listen(this.waitForServer);
-        else
-            this.update(gameIn);
+        if(gameIn.moves.length % 2 === myGame.myTeam)
+        {
+            myGame.update(gameIn);
+        }
 
+        else
+            await setTimeout(myGame.vueBoard.$api.listenObj, 5000, myGame.waitForServer, myGame)
     }
     update(Game) {
         {
-            this.move(this.vueBoard.getPosition(Game.moves[0].from));
-            this.move(this.vueBoard.getPosition(Game.moves[0].to));
+            this.move(this.vueBoard.getPosition(Game.moves[Game.moves.length - 1].from, this.game.get_rows(), this.game.get_cols()), (this.myTeam + 1) % 2);
+            this.move(this.vueBoard.getPosition(Game.moves[Game.moves.length - 1].to, this.game.get_rows(), this.game.get_cols()), (this.myTeam + 1) % 2);
         }
     }
     async sendMove(from, to)
     {
         if(this.vueBoard.online)
         {
+            console.log("----------------------------")
+            console.log(this.packMove(from));
+            console.log(this.packMove(to));
+            console.log("----------------------------")
             await this.vueBoard.$api.makeMove(this.packMove(from), this.packMove(to), "-");
-            await this.vueBoard.$api.listen(this.waitForServer);
+            await this.vueBoard.$api.listenObj(this.waitForServer, this);
         }
     }
 
@@ -118,7 +138,7 @@ export class Game_Control//klasa kontrulujaca zasady gry
         return {p: img, f: String.fromCharCode(to.col + 65) + to.row.toString()};
     }
 
-    accept_move(from, to) {
+    accept_move(from, to, player) {
         this.vueBoard.$emit("messageFromChild", this.saveMove(from, to));
         let My_piece = this.game.get_id_piece(from.row, from.col);
         this.game.set_of_piece[My_piece].c_moves++;
@@ -134,9 +154,13 @@ export class Game_Control//klasa kontrulujaca zasady gry
             this.events[i](this, true);
         }
         this.n_move++;
+        if(this.myTeam === player)
+        {
+            this.sendMove(from, to);
+        }
         this.game.set_every_move(this);
         this.EndGameCheck();
-        this.sendMove(from, to);
+
     }
 
     look_back() {
@@ -182,13 +206,13 @@ export class Game_Control//klasa kontrulujaca zasady gry
         }
     }
 
-    move(value) {
+    move(value, playerId) {
         if (this.idx_history !== 0) {
             this.curren_position();
             return;
         }
         if (this.activePiece.row === -1) {
-            if (!this.isYourTurn() || !this.isYourPiece(this.game.get_id_piece(value.row, value.col)) || this.GameStatus.isEnd)
+            if (!this.isYourTurn(playerId) || !this.isYourPiece(this.game.get_id_piece(value.row, value.col)) || this.GameStatus.isEnd)
                 return;
             this.activePiece.row = value.row;
             this.activePiece.col = value.col;
@@ -196,15 +220,15 @@ export class Game_Control//klasa kontrulujaca zasady gry
             this.reset = !this.reset;
         } else {
                 if (this.game.p_moves[value.row][value.col] !== -1) {
-                    this.accept_move(this.activePiece, value);
+                    this.accept_move(this.activePiece, value, playerId);
                 }
             this.game.clear_possible_move();
             this.activePiece = {row: -1, col: -1}
             this.reset = !this.reset;
         }
     }
-    isYourTurn(){
-        if( this.myTeam === -1 || this.myTeam === this.n_move % 2)
+    isYourTurn(playerId){
+        if( this.myTeam === -1 || playerId === this.n_move % 2)
             return true;
         else
             return false;

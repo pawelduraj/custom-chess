@@ -2,16 +2,16 @@
   <v-card class="userContainer" flat>
     <v-divider></v-divider>
     <v-row >
-      <v-img class="avatar" contain :aspect-ratio="1" max-height="80px" max-width="80px" gradient
-             src="https://cdn.vuetifyjs.com/images/john.jpg"
+      <v-img class="avatar" contain :aspect-ratio="1" max-height="70px" max-width="70px"
+             :src="getAvatar()"
              alt="John"
       />
       <v-col>
         <v-card-title>
-          Gracz
+          {{user.name}}
         </v-card-title>
         <v-card-subtitle>
-          Opis użytkownika
+          {{user.dsc}}
         </v-card-subtitle>
       </v-col>
     </v-row>
@@ -22,7 +22,14 @@
 <script>
 export default {
   name: "UserDetails",
-  methods: {}
+  props:{
+    user: Object
+  },
+  methods: {
+    getAvatar(){
+      return "/img/"+ this.user.img;
+    },
+  }
 }
 </script>
 

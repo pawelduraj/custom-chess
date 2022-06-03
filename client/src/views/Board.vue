@@ -2,10 +2,10 @@
   <v-container>
     <v-row >
       <v-col>
-        <UserDetails/>
+        <UserDetails :user = "{name: 'Doge',dsc: 'Opis użytkownika',img: 'doge.jpg'}"/>
         <ChessBoard :variant="this.variant" :online="this.online" :message="mChessBoard" :reset="resetChessBoard"
                     @messageFromChild="getMessageChessBoard"/>
-        <UserDetails/>
+        <UserDetails :user = "{name: getNickName(),dsc: 'Opis użytkownika',img: 'cat.png'}"/>
       </v-col>
       <v-col>
         <GameDetails :message="mDetails" :reset="resetDetails" @messageFromChild="getMessageGameDetails"/>
@@ -24,18 +24,15 @@ export default {
   name: 'Board',
   methods: {
     getMessageGameDetails(M) {
-      if (M === 0) {
-        this.mChessBoard = 0;
-
-      } else if (M === 1) {
-        this.mChessBoard = 1;
-      } else
-        return;
+      this.mChessBoard = M;
       this.resetChessBoard = !this.resetChessBoard;
     },
     getMessageChessBoard(M) {
       this.mDetails = M;
       this.resetDetails = !this.resetDetails;
+    },
+    getNickName(){
+      return localStorage.name;
     }
   },
   data() {
@@ -46,7 +43,7 @@ export default {
         {id: 'R', checkable: false, color: 0, field: 0}, {id: 'R', checkable: false, color: 0, field: 7},
         {id: 'N', checkable: false, color: 0, field: 1}, {id: 'N', checkable: false, color: 0, field: 6},
         {id: 'B', checkable: false, color: 0, field: 2}, {id: 'B', checkable: false, color: 0, field: 5},
-        {id: 'Q', checkable: false, color: 0, field: 4}, {id: 'K', checkable: true, color: 0, field: 3},
+        {id: 'Q', checkable: false, color: 0, field: 3}, {id: 'K', checkable: true, color: 0, field: 4},
         {id: 'P', checkable: false, color: 0, field: 8}, {id: 'P', checkable: false, color: 0, field: 9},
         {id: 'P', checkable: false, color: 0, field: 10}, {id: 'P', checkable: false, color: 0, field: 11},
         {id: 'P', checkable: false, color: 0, field: 12}, {id: 'P', checkable: false, color: 0, field: 13},
@@ -54,7 +51,7 @@ export default {
         {id: 'R', checkable: false, color: 1, field: 56}, {id: 'R', checkable: false, color: 1, field: 63},
         {id: 'N', checkable: false, color: 1, field: 57}, {id: 'N', checkable: false, color: 1, field: 62},
         {id: 'B', checkable: false, color: 1, field: 58}, {id: 'B', checkable: false, color: 1, field: 61},
-        {id: 'K', checkable: true, color: 1, field: 59}, {id: 'Q', checkable: false, color: 1, field: 60},
+        {id: 'K', checkable: true, color: 1, field: 60}, {id: 'Q', checkable: false, color: 1, field: 59},
         {id: 'P', checkable: false, color: 1, field: 48}, {id: 'P', checkable: false, color: 1, field: 49},
         {id: 'P', checkable: false, color: 1, field: 50}, {id: 'P', checkable: false, color: 1, field: 51},
         {id: 'P', checkable: false, color: 1, field: 52}, {id: 'P', checkable: false, color: 1, field: 53},

@@ -24,7 +24,7 @@ export let mateANDpat = function (Game)
                 if (Game.game.set_of_piece[Game.game.every_p_moves[row][col][i].id].team === Game.n_move % 2)
                     return false;
         if (Game.Is_it_check(Game.game.board, Game.game.every_p_moves))
-            Game.GameStatus.setEnd(Game.n_move % 2, 0);
+            Game.GameStatus.setEnd((Game.n_move + 1) % 2, 0);
         else
             Game.GameStatus.setEnd(-1, 1);
         return true;

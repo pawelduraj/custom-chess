@@ -20,6 +20,7 @@ import {
   Castling_queenside_cond
 } from "@/scripts/chessboard/conditions"
 import {perpetualCheck, mateANDpat} from "@/scripts/chessboard/endConditions";
+import EndScreen from "@/components/EndScreen";
 
 export default {
   name: "ChessBoard",
@@ -46,10 +47,20 @@ export default {
       {
 
         Interaction() {
-          if (this.message === 0)
-            this.game_controll.look_back();
-          else if (this.message === 1)
-            this.game_controll.look_forward();
+          switch (this.message)
+          {
+            case 0:
+              this.game_controll.look_back();
+              break;
+            case 1:
+              this.game_controll.look_forward();
+              break;
+            case 2:
+              break;
+            case 3:
+              this.game_controll.Surrender();
+              break;
+          }
         },
         changePawn(type) {
           this.game_controll.Interaction.on = false;
@@ -120,11 +131,24 @@ export default {
           }
         },
         move(value) {
-          this.game_controll.move(value);
+          this.game_controll.move(value, this.game_controll.myTeam);
+        },
+        getRowPaintIdx(row){
+          if(this.game_controll.myTeam === 0 || this.game_controll.myTeam === -1 )
+            return row;
+          else
+            return this.game_controll.game.get_rows() - row + 1;
+        },
+        getColPaintIdx(col){
+          if(this.game_controll.myTeam === 0 || this.game_controll.myTeam === -1 )
+            return col;
+          else
+            return this.game_controll.game.get_cols() - col + 1;
         }
       },
   components:
       {
+        EndScreen,
         Field
       }
 }
@@ -133,44 +157,12 @@ export default {
 
 <template>
   <div id="chessBoard">
-    <div class="row_chess" v-for="row in game_controll.game.get_rows()" :key=row>
-      <Field v-for="col in game_controll.game.get_cols()" :ref="(row - 1) * 8 + (col - 1)" :key=col :row=row-1
-             :col=col-1
-             :image="game_controll.game.get_image(row - 1, col - 1)" :reset=game_controll.reset @childToParent="move"/>
+    <div class="row_chess" v-for="row in game_controll.game.get_rows()" :key= "getRowPaintIdx(row)">
+      <Field v-for="col in game_controll.game.get_cols()" :ref="(getRowPaintIdx(row) - 1) * 8 + (getColPaintIdx(col) - 1)" :key=col :row=getRowPaintIdx(row)-1
+             :col=getColPaintIdx(col)-1
+             :image="game_controll.game.get_image(getRowPaintIdx(row) - 1, getColPaintIdx(col) - 1)" :reset=game_controll.reset @childToParent="move"/>
     </div>
-    <v-dialog
-        v-model=game_controll.GameStatus.visable
-        width="500">
-      <v-card>
-        <v-card-title class="text-h5">
-          {{ game_controll.GameStatus.reason }}
-        </v-card-title>
-
-        <v-card-text>
-          {{ game_controll.GameStatus.whoWin }}
-        </v-card-text>
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-
-          <v-btn
-              color="red lighten-2"
-              dark
-              @click="game_controll.GameStatus.visable = false"
-          >
-            Wyjdź
-          </v-btn>
-
-          <v-btn
-              color="red lighten-2"
-              dark
-              @click="game_controll.GameStatus.visable = false"
-          >
-            Zaproponuj rewanż
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <EndScreen :GameStatus = "game_controll.GameStatus" />
 
     <v-dialog
         v-model=game_controll.Interaction.on

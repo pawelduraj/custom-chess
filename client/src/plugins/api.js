@@ -67,6 +67,28 @@ api.listen = async function (update) {
     };
 }
 
+
+api.listenObj = async function (update, Game) {
+    if (api.sse != null && api.sse.readyState === 1) await api.disconnect();
+    api.sse = new EventSource(baseUrl + `/api/listen?gameId=${api.gameId}`);
+    api.sse.onmessage = function (event) {
+        api.game = JSON.parse(event.data);
+
+        if (api.game.status === 0)
+            localStorage.setItem('game', JSON.stringify({gameId: api.gameId, playerId: api.playerId, token: api.token}));
+        else localStorage.removeItem('game');
+
+        if (api.game.new != null) {
+            api.gameId = api.game.new.gameId;
+            api.playerId = (api.playerId + 1) % api.game.players.length;
+            api.token = api.game.new.tokens[api.playerId];
+            localStorage.setItem('game', JSON.stringify({gameId: api.gameId, playerId: api.playerId, token: api.token}));
+        }
+
+        update(api.game, Game);
+    };
+}
+
 api.disconnect = function () {
     api.sse.close();
 }

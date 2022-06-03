@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title>Opis St</v-card-title>
+    <v-card-title>Opis wariantu</v-card-title>
     <v-expansion-panels
         v-model="panel"
         multiple
@@ -69,7 +69,7 @@
               </v-expansion-panel-content>
             </v-expansion-panel>
             <v-expansion-panel class="rules">
-              <v-expansion-panel-header>Poddanie</v-expansion-panel-header>
+              <v-expansion-panel-header>Poddanie się</v-expansion-panel-header>
               <v-expansion-panel-content>
                 <v-card>
                   <v-card-text>
@@ -94,54 +94,97 @@
         <v-expansion-panel-header>Zbiór bierek</v-expansion-panel-header>
         <v-expansion-panel-content>
           <v-row justify="space-between">
+
+
             <v-hover
                 v-slot="{ hover }"
             >
-              <v-card width="15%" :elevation="hover ? 16 : 2" :class="{'on-hover': hover}">
+              <v-tooltip right :open-on-hover = false>
+              <template v-slot:activator="{ on, attrs }">
+              <v-card width="15%" :elevation="hover ? 16 : 2" :class="{'on-hover': hover}" v-bind="attrs" v-on="on">
                 <v-card-title>Pion</v-card-title>
                 <v-img src="img/pawn_b.png" :aspect-ratio="1"></v-img>
               </v-card>
+              </template>
+              <v-img src = "/img/pawnMove.png" max-width="300px"/>
+            </v-tooltip>
             </v-hover>
+
+
             <v-hover
                 v-slot="{ hover }"
             >
-              <v-card width="15%" :elevation="hover ? 16 : 2" :class="{'on-hover': hover}">
-                <v-card-title>Koń</v-card-title>
-                <v-img src="img/knight_b.png" :aspect-ratio="1"></v-img>
-              </v-card>
+              <v-tooltip right :open-on-hover = false>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-card width="15%" :elevation="hover ? 16 : 2" :class="{'on-hover': hover}" v-bind="attrs" v-on="on">
+                    <v-card-title>Koń</v-card-title>
+                    <v-img src="img/knight_b.png" :aspect-ratio="1"></v-img>
+                  </v-card>
+                </template>
+                <v-img src = "/img/knightMove.png" max-width="300px"/>
+              </v-tooltip>
             </v-hover>
+
+
             <v-hover
                 v-slot="{ hover }"
             >
-              <v-card width="15%" :elevation="hover ? 16 : 2" :class="{'on-hover': hover}">
-                <v-card-title>Goniec</v-card-title>
-                <v-img src="img/bishop_b.png" :aspect-ratio="1"></v-img>
-              </v-card>
+              <v-tooltip right :open-on-hover = false>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-card width="15%" :elevation="hover ? 16 : 2" :class="{'on-hover': hover}" v-bind="attrs" v-on="on">
+                    <v-card-title>Goniec</v-card-title>
+                    <v-img src="img/bishop_b.png" :aspect-ratio="1"></v-img>
+                  </v-card>
+                </template>
+                <v-img src = "/img/bishopMove.png" max-width="300px"/>
+              </v-tooltip>
             </v-hover>
+
+
             <v-hover
                 v-slot="{ hover }"
             >
-              <v-card width="15%" :elevation="hover ? 16 : 2" :class="{'on-hover': hover}">
-                <v-card-title>Wieża</v-card-title>
-                <v-img src="img/rook_b.png" :aspect-ratio="1"></v-img>
-              </v-card>
+              <v-tooltip right :open-on-hover = false>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-card width="15%" :elevation="hover ? 16 : 2" :class="{'on-hover': hover}" v-bind="attrs" v-on="on">
+                    <v-card-title>Wieża</v-card-title>
+                    <v-img src="img/rook_b.png" :aspect-ratio="1"></v-img>
+                  </v-card>
+                </template>
+                <v-img src = "/img/rookMove.png" max-width="300px"/>
+              </v-tooltip>
             </v-hover>
+
+
             <v-hover
                 v-slot="{ hover }"
             >
-              <v-card width="15%" :elevation="hover ? 16 : 2" :class="{'on-hover': hover}">
-                <v-card-title>Hetman</v-card-title>
-                <v-img src="img/queen_b.png" :aspect-ratio="1"></v-img>
-              </v-card>
+              <v-tooltip left :open-on-hover = false>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-card width="15%" :elevation="hover ? 16 : 2" :class="{'on-hover': hover}" v-bind="attrs" v-on="on">
+                    <v-card-title>Hetman</v-card-title>
+                    <v-img src="img/queen_b.png" :aspect-ratio="1"></v-img>
+                  </v-card>
+                </template>
+                <v-img src = "/img/queenMove.png" max-width="300px"/>
+              </v-tooltip>
             </v-hover>
+
+
             <v-hover
                 v-slot="{ hover }"
             >
-              <v-card width="15%" :elevation="hover ? 16 : 2" :class="{'on-hover': hover}">
-                <v-card-title>Król</v-card-title>
-                <v-img src="img/king_b.png" :aspect-ratio="1"></v-img>
-              </v-card>
+              <v-tooltip left :open-on-hover = false>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-card width="15%" :elevation="hover ? 16 : 2" :class="{'on-hover': hover}" v-bind="attrs" v-on="on">
+                    <v-card-title>Król</v-card-title>
+                    <v-img src="img/king_b.png" :aspect-ratio="1"></v-img>
+                  </v-card>
+                </template>
+                <v-img src = "/img/kingMove.png" max-width="300px"/>
+              </v-tooltip>
             </v-hover>
+
           </v-row>
         </v-expansion-panel-content>
       </v-expansion-panel>
@@ -164,5 +207,8 @@ export default {
 <style scoped>
 .rules {
   width: 100px;
+}
+.v-tooltip__content {
+  opacity: 1 !important;
 }
 </style>

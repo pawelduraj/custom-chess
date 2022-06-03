@@ -75,7 +75,7 @@ export default {
       let variant = JSON.parse(JSON.stringify(this.variant));
 
       if (this.mode === 'Online') {
-        this.$api.createNewGame('Anonymous', time, variant, color).then(() => {
+        this.$api.createNewGame("Anonimowy", time, variant, color).then(() => {
           this.wait = true;
           this.$api.listen((game) => {
             if (game.status === 0) {

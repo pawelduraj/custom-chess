@@ -13,18 +13,19 @@
         <v-divider inset></v-divider>
         <v-tabs-slider></v-tabs-slider>
 
+        <v-tab href="#tab-2">
+          Zasady gry
+        </v-tab>
+
         <v-tab href="#tab-1">
           Lista ruchów
         </v-tab>
 
-        <v-tab href="#tab-2">
-          Zasady gry
-        </v-tab>
       </v-tabs>
-      <v-tabs-items v-model="tab">
+      <v-tabs-items class="transparent" v-model="tab">
         <v-tab-item :value="'tab-1'">
-          <v-container>
-            <v-row v-model="history" justify="space-around" v-bind:key="h" v-for="h in Math.ceil(history.length / 2)">
+          <v-container v-if = "history.length !== 0">
+            <v-row  v-model="history" justify="space-around" v-bind:key="h" v-for="h in Math.ceil(history.length / 2)">
               <v-card flat>
                 <v-row no-gutters>
                   <v-img max-height="100%" width="20px" contain :src="getHistoryRec(2 * (h - 1)).p"></v-img>
@@ -33,8 +34,8 @@
                   </v-card>
                 </v-row>
               </v-card>
-              <v-card flat>
-                <v-row no-gutters>
+              <v-card flat min-width="69px">
+                <v-row no-gutters >
                   <v-img max-height="100%" width="20px" contain :src="getHistoryRec(2 * (h - 1) + 1).p"></v-img>
                   <v-card flat>
                     <v-card-text>{{ getHistoryRec(2 * (h - 1) + 1).f }}</v-card-text>
@@ -57,21 +58,45 @@
           color="primary"
           horizontal
       >
-        <v-btn @click="sendMessage(0)">
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+        <v-btn @click="sendMessage(0)" v-bind="attrs"
+               v-on="on">
           <v-img src="img/leftArrow.png" max-height="100%" width="20px" contain></v-img>
         </v-btn>
+          </template>
+          <span>Poprzednie ustawienie na planszy</span>
+        </v-tooltip>
 
-        <v-btn @click="sendMessage(1)">
-          <v-img src="img/rightArrow.png" max-height="100%" width="20px" contain></v-img>
-        </v-btn>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn @click="sendMessage(1)" v-bind="attrs"
+                   v-on="on">
+              <v-img src="img/rightArrow.png" max-height="100%" width="20px" contain></v-img>
+            </v-btn>
+          </template>
+          <span>Następne ustawienie na planszy</span>
+        </v-tooltip>
 
-        <v-btn @click="sendMessage(1)">
-          <v-img src="img/draw.png" max-height="100%" width="20px" contain></v-img>
-        </v-btn>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn @click="sendMessage(0)" v-bind="attrs"
+                   v-on="on">
+              <v-img src="img/draw.png" max-height="100%" width="20px" contain></v-img>
+            </v-btn>
+          </template>
+          <span>Zaoferuj remis</span>
+        </v-tooltip>
 
-        <v-btn @click="sendMessage(1)">
-          <v-img src="img/whiteflag.png" max-height="100%" width="20px" contain></v-img>
-        </v-btn>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn @click="sendMessage(3)" v-bind="attrs"
+                   v-on="on">
+              <v-img src="img/whiteflag.png" max-height="100%" width="20px" contain></v-img>
+            </v-btn>
+          </template>
+          <span>Poddaj się</span>
+        </v-tooltip>
       </v-bottom-navigation>
     </v-card>
   </v-container>
@@ -117,9 +142,11 @@ export default {
 
 <style scoped>
 #GameDetails {
-  background-color: wheat;
+  background-color: aliceblue;
   border-radius: 2px;
   min-height: 92%;
   padding: 0;
+  box-shadow: 5px 10px 8px 9px #888888;
 }
+
 </style>
