@@ -10,7 +10,7 @@ export default {
   props: {
     row: Number,
     col: Number,
-    image: {String, Boolean},
+    image: {String, Number},
     reset: Boolean
   },
   watch: {
@@ -21,7 +21,7 @@ export default {
   methods:
       {
         Opacity() {
-          if (this.image.hit)
+          if (this.image.info === 1)
             return "hitable";
           else
             return "";
@@ -29,6 +29,8 @@ export default {
         black_or_white() {
           if (this.active === true)
             return "green"
+          if(this.image.info === 2)
+            return "black"
           if ((this.row + this.col) % 2 === 0)
             return "white"
           else

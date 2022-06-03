@@ -50,23 +50,57 @@ export class Chess_game//klasa gry glownej
                 this.p_moves[i][j] = -1;
     }
 
+    get_imageFog(row, col, myTeam)
+    {
+        let id = this.get_id_piece(row, col);
+        let pMove = false;
+        for(let i = 0; i < this.every_p_moves[row][col].length; i++)
+            if(this.set_of_piece[this.every_p_moves[row][col][i].id].team === myTeam)
+            {
+                pMove = true;
+                break;
+            }
+        if(id === -1)
+        {
+            if (this.is_possible_move(row, col) !== -1)
+                return {image: "dot.png", info: 0};
+            else
+                return {image: "", info: pMove ? 0 : 2};
+        }
+        if(pMove || this.set_of_piece[id].team === myTeam)
+        {
+            if (this.set_of_piece[id].team === 0)
+                return {
+                    image: this.set_of_types[this.set_of_piece[id].type].image + "_w.png",
+                    info: this.is_possible_move(row, col) !== -1 ? 1 : 0
+                };
+            else
+                return {
+                    image: this.set_of_types[this.set_of_piece[id].type].image + "_b.png",
+                    info: this.is_possible_move(row, col) !== -1 ? 1 : 0
+                };
+        }
+        else
+            return {image: "", info: 2}
+    }
+
     get_image(row, col) {
         let id = this.get_id_piece(row, col);
         if (id === -1)
             if (this.is_possible_move(row, col) !== -1)
-                return {image: "dot.png", hit: false};
+                return {image: "dot.png", info: 0};
             else
-                return {image: "", hit: false};
+                return {image: "", info: 0};
 
         if (this.set_of_piece[id].team === 0)
             return {
                 image: this.set_of_types[this.set_of_piece[id].type].image + "_w.png",
-                hit: this.is_possible_move(row, col) !== -1
+                info: this.is_possible_move(row, col) !== -1 ? 1 : 0
             };
         else
             return {
                 image: this.set_of_types[this.set_of_piece[id].type].image + "_b.png",
-                hit: this.is_possible_move(row, col) !== -1
+                info: this.is_possible_move(row, col) !== -1 ? 1 : 0
             };
 
     }
