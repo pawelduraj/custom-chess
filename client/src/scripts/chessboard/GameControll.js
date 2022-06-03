@@ -36,14 +36,9 @@ export class Game_Control//klasa kontrulujaca zasady gry
         this.Interaction = new Interaction();
         if(vueBoard.online)
         {
-            if(vueBoard.$api.playerId === 0)
-                this.myTeam = 0;
-            else
-            {
-                this.myTeam = 1;
-                if (isSet)
-                    vueBoard.$api.listenObj(this.waitForServer, this);
-            }
+            this.myTeam = vueBoard.$api.playerId;
+            if (isSet)
+                vueBoard.$api.listenObj(this.waitForServer, this);
         }
         else
             this.myTeam = -1;
@@ -51,9 +46,11 @@ export class Game_Control//klasa kontrulujaca zasady gry
 
     Surrender()
     {
-
         if(this.vueBoard.online)
-            this.GameStatus.setEnd(this.myTeam ,3)
+        {
+            this.vueBoard.$api.giveUp();
+            this.GameStatus.setEnd((this.myTeam + 1) % 2 ,3)
+        }
         else
             this.GameStatus.setEnd((this.n_move + 1) % 2, 3)
     }
@@ -106,13 +103,15 @@ export class Game_Control//klasa kontrulujaca zasady gry
     }
     async waitForServer(gameIn, myGame)
     {
-        if(gameIn.moves.length % 2 === myGame.myTeam)
-        {
+        if(gameIn.moves.length % 2 === myGame.myTeam && gameIn.moves.length !== 0 && myGame.history.length !== gameIn.moves.length + 1)
             myGame.update(gameIn);
-        }
+        else if(gameIn.draw[0] === 1 && gameIn.draw[1] === 1)
+            myGame.GameStatus.setEnd(-1, 4);
+        else if(gameIn.draw[(myGame.myTeam + 1) % 2] === 1)
+            myGame.vueBoard.drawAct = true;
+        if(gameIn.status === 1)
+            myGame.GameStatus.setEnd(myGame.myTeam, 3)
 
-        else
-            await setTimeout(myGame.vueBoard.$api.listenObj, 5000, myGame.waitForServer, myGame)
     }
     update(Game) {
         {
@@ -129,7 +128,6 @@ export class Game_Control//klasa kontrulujaca zasady gry
             console.log(this.packMove(to));
             console.log("----------------------------")
             await this.vueBoard.$api.makeMove(this.packMove(from), this.packMove(to), "-");
-            await this.vueBoard.$api.listenObj(this.waitForServer, this);
         }
     }
 

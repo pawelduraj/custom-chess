@@ -45,6 +45,8 @@ export class GameStatus {
     }
 
     setEnd(winner, reason) {
+        if(this.isEnd)
+            return;
         this.isEnd = true;
         this.visable = true;
         switch (winner) {
@@ -70,6 +72,9 @@ export class GameStatus {
                 break;
             case 3:
                 this.reason = "Poddanie sie";
+                break;
+            case 4:
+                this.reason = "Remis"
                 break;
         }
     }

@@ -20,7 +20,7 @@ export let change_pawn = function (Game, currentMove) {
         let piece = Game.game.get_piece(0, i);
         if (piece === null)
             continue;
-        if (piece.type === 6) {
+        if (piece.type === 6 || piece.type === 13) {
             Game.Interaction.run(Game.game.get_id_piece(0, i));
         }
     }
@@ -28,7 +28,7 @@ export let change_pawn = function (Game, currentMove) {
         let piece = Game.game.get_piece(Game.game.get_rows() - 1, i);
         if (piece === null)
             continue;
-        if (piece.type === 5) {
+        if (piece.type === 5 || piece.type === 12) {
             Game.Interaction.run(Game.game.get_id_piece(Game.game.get_rows() - 1, i));
         }
     }

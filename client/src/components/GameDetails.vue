@@ -80,7 +80,7 @@
 
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn @click="sendMessage(0)" v-bind="attrs"
+            <v-btn @click="sendMessage(2)" v-bind="attrs"
                    v-on="on">
               <v-img src="img/draw.png" max-height="100%" width="20px" contain></v-img>
             </v-btn>
