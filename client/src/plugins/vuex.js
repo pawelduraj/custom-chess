@@ -29,7 +29,6 @@ state.variants = [{
     ],
     rules: [
         {id: 'capture-all', value: false},
-        {id: 'castling', value: true},
         {id: 'multimove', value: [1]}
     ]
 }, {
@@ -51,7 +50,6 @@ state.variants = [{
     ],
     rules: [
         {id: 'capture-all', value: false},
-        {id: 'castling', value: true},
         {id: 'multimove', value: [1]}
     ]
 }];
@@ -68,7 +66,13 @@ state.boards = [{
         {name: 'Knight', id: 'N', img: ['knight_w.png', 'knight_b.png']},
         {name: 'Bishop', id: 'B', img: ['bishop_w.png', 'bishop_b.png']},
         {name: 'Queen', id: 'Q', img: ['queen_w.png', 'queen_b.png']},
-        {name: 'King', id: 'K', img: ['king_w.png', 'king_b.png']}
+        {name: 'King', id: 'K', img: ['king_w.png', 'king_b.png']},
+        {name: 'Berolina Pawn', id: 'BP', img: ['berolinapawn_w.png', 'berolinapawn_b.png']},
+        {name: 'Amazon', id: 'AZ', img: ['amazon_w.png', 'amazon_b.png']},
+        {name: 'Archbishop', id: 'AB', img: ['archbishop_w.png', 'archbishop_b.png']},
+        {name: 'Centaur', id: 'CT', img: ['centaur_w.png', 'centaur_b.png']},
+        {name: 'chancellor', id: 'CC', img: ['chancellor_w.png', 'chancellor_b.png']},
+        {name: 'Nightrider', id: 'NR', img: ['nightrider_w.png', 'nightrider_b.png']}
     ]
 }];
 
@@ -87,8 +91,8 @@ export default new Vuex.Store({
     state: state,
     mutations: {
         createVariant(state, variant) {
-            console.log('XD');
             let id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15).replace(',', '');
+            variant.id = id;
             localStorage.setItem(id, JSON.stringify(variant));
             let variantList = localStorage.getItem('variants');
             if (variantList == null) variantList = id;
@@ -104,7 +108,7 @@ export default new Vuex.Store({
             if (variantIndex === -1) return;
             variantList.splice(variantIndex, 1);
             localStorage.setItem('variants', variantList.join(','));
-            state.variants.splice(variantIndex, 1);
+            state.variants.splice(state.variants.findIndex(v => v.id === variantId), 1);
             localStorage.removeItem(variantId);
         }
     }

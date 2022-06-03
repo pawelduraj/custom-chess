@@ -42,7 +42,7 @@
         <v-card-actions>
           <v-spacer/>
           <v-btn color="primary" min-width="100" @click="dialog = false"
-                 :disabled="name.trim().length < 4 || name.trim().length > 16">
+                 :disabled="name.trim().length < 3 || name.trim().length > 16">
             OK
           </v-btn>
           <v-spacer/>

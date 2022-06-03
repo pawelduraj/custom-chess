@@ -21,7 +21,6 @@ module.exports.STANDARD_VARIANT = {
     ],
     rules: [
         {id: 'capture-all', value: false},
-        {id: 'castling', value: true},
         {id: 'multimove', value: [1]}
     ]
 };

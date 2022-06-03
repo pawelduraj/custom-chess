@@ -1,14 +1,20 @@
 const analyzeBoardAfterPlayerMove = require('./board-analyzer');
 
-const pawns = require('./pawns');
-const bishops = require('./bishops');
-const kings = require('./kings');
-const knights = require('./knights');
-const queens = require('./queens');
-const rooks = require('./rooks');
+const amazon = require('./amazon');
+const archbishop = require('./archbishop');
+const berolinaPawn = require('./berolina-pawn');
+const bishop = require('./bishop');
+const centaur = require('./centaur');
+const chancellor = require('./chancellor');
+const king = require('./king');
+const knight = require('./knight');
+const nightrider = require('./nightrider');
+const pawn = require('./pawn');
+const queen = require('./queen');
+const rook = require('./rook');
 
-const FIGURE_IDS = ['B', 'K', 'N', 'Q', 'R'];
-const PAWN_IDS = ['P'];
+const FIGURE_IDS = ['AZ', 'AB', 'B', 'CT', 'CC', 'K', 'N', 'NR', 'Q', 'R'];
+const PAWN_IDS = ['P', 'BP'];
 const PIECE_IDS = FIGURE_IDS.concat(PAWN_IDS);
 
 function isMoveValid(move, board, variant) {
@@ -21,12 +27,18 @@ function isMoveValid(move, board, variant) {
 
 function getAllPossibleMoves(from, board, variant) {
     if (board[from] === '-') return [];
-    else if (board[from].id === 'P') return pawns.getAllPossibleMoves(from, board, variant);
-    else if (board[from].id === 'B') return bishops.getAllPossibleMoves(from, board, variant);
-    else if (board[from].id === 'K') return kings.getAllPossibleMoves(from, board, variant);
-    else if (board[from].id === 'N') return knights.getAllPossibleMoves(from, board, variant);
-    else if (board[from].id === 'Q') return queens.getAllPossibleMoves(from, board, variant);
-    else if (board[from].id === 'R') return rooks.getAllPossibleMoves(from, board, variant);
+    else if (board[from].id === 'AZ') return amazon.getAllPossibleMoves(from, board, variant);
+    else if (board[from].id === 'AB') return archbishop.getAllPossibleMoves(from, board, variant);
+    else if (board[from].id === 'BP') return berolinaPawn.getAllPossibleMoves(from, board, variant);
+    else if (board[from].id === 'B') return bishop.getAllPossibleMoves(from, board, variant);
+    else if (board[from].id === 'CT') return centaur.getAllPossibleMoves(from, board, variant);
+    else if (board[from].id === 'CC') return chancellor.getAllPossibleMoves(from, board, variant);
+    else if (board[from].id === 'K') return king.getAllPossibleMoves(from, board, variant);
+    else if (board[from].id === 'N') return knight.getAllPossibleMoves(from, board, variant);
+    else if (board[from].id === 'NR') return nightrider.getAllPossibleMoves(from, board, variant);
+    else if (board[from].id === 'P') return pawn.getAllPossibleMoves(from, board, variant);
+    else if (board[from].id === 'Q') return queen.getAllPossibleMoves(from, board, variant);
+    else if (board[from].id === 'R') return rook.getAllPossibleMoves(from, board, variant);
     else return [];
 }
 

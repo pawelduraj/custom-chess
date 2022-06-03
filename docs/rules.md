@@ -11,15 +11,6 @@
 
 ---
 
-### Castling `castling`
-
-> Castling is a special move.
-
-- `true` - Enable this rule
-- `false` - Disable this rule
-
----
-
 ### Multimove `multimove`
 
 > Player can make multiple moves in one turn.

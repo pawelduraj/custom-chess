@@ -23,8 +23,7 @@ describe('Name Validator', () => {
     expect(isNameValid([])).to.be.false;
   });
 
-  it('should return false if name is shorter than 4 characters', () => {
-    expect(isNameValid('abc')).to.be.false;
+  it('should return false if name is shorter than 3 characters', () => {
     expect(isNameValid('ab')).to.be.false;
     expect(isNameValid('a')).to.be.false;
   });

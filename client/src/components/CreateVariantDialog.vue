@@ -122,7 +122,8 @@
               Define checkable pieces for your variant:
               <CreatorBoardStandardCheckablePieces v-if="board.id === 's'" :size="600" ref="boardCheckablePieces"
                                                    :width="board.params.find(p => p.id === 'w').value"
-                                                   :height="board.params.find(p => p.id === 'h').value"/>
+                                                   :height="board.params.find(p => p.id === 'h').value"
+                                                   class="mt-3"/>
             </v-card-text>
             <v-card-actions>
               <v-spacer/>
@@ -189,6 +190,7 @@ export default {
       this.step = step;
     },
     onPieceClickWhenSettingPosition(piece, index) {
+      console.log(this.board.pieces);
       if (this.positionCreator.piece === index) {
         this.positionCreator.piece = null;
         this.$refs.boardInitialPosition.setupPiece(null, this.positionCreator.color);
@@ -199,7 +201,7 @@ export default {
     },
     createVariant() {
       // TODO optimize
-      let variant = {name: this.name, players: this.players};
+      let variant = {name: this.name.trim(), players: this.players};
       variant.board = this.board;
       variant.pieces = this.pieces;
       variant.rules = [
@@ -207,6 +209,7 @@ export default {
         {id: 'castling', value: true},
         {id: 'multimove', value: [1]}
       ];
+      variant.board.name = variant.board.params.find(p => p.id === 'w').value + ' x ' + variant.board.params.find(p => p.id === 'h').value;
       this.$store.commit('createVariant', variant);
       this.dialog = false;
       console.log(variant);

@@ -5,5 +5,5 @@ module.exports = (name) => {
 
     if (name.length !== name.trim().length) return false;
 
-    return name.length > 3 && name.length < 17;
+    return name.length > 2 && name.length < 17;
 }

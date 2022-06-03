@@ -1,3 +1,7 @@
+const FIGURE_IDS = ['AZ', 'AB', 'B', 'CT', 'CC', 'K', 'N', 'NR', 'Q', 'R'];
+const PAWN_IDS = ['P', 'BP'];
+const PIECE_IDS = FIGURE_IDS.concat(PAWN_IDS);
+
 module.exports = (piece, variant) => {
     if (piece == null || typeof piece !== 'object') return false;
 
@@ -13,7 +17,7 @@ module.exports = (piece, variant) => {
     if (variant.board.id === 's') {
         const fields = variant.board.params.find(p => p.id === 'w').value * variant.board.params.find(p => p.id === 'h').value;
         if (piece.field < 0 || piece.field >= fields) return false;
-        return ['B', 'K', 'N', 'Q', 'P', 'R'].includes(piece.id);
+        return PIECE_IDS.includes(piece.id);
     }
 
     return false;

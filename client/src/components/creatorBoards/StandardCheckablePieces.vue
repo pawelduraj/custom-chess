@@ -48,7 +48,7 @@ export default {
       this.pieces = pieces;
     },
     swapCheckable(index) {
-      if (this.pieces[index].id === 'P') return;
+      if (this.pieces[index].id === 'P' || this.pieces[index].id === 'BP') return;
       this.pieces[index].checkable = !this.pieces[index].checkable;
       this.lastUpdate += 1;
     },
