@@ -1,6 +1,6 @@
 <template>
   <div :style="{'position': 'relative', 'width': size + 'px', 'height': size + 'px'}">
-    <div v-for="(square, index) in squares" :key="index" @click="addPiece(square.left, square.top)"
+    <div v-for="(square, index) in squares" :key="index" @click="addPiece(square.left, square.top, square.field)"
          :style="{'position': 'absolute', 'left': square.left, 'top': square.top, 'width': square.width, 'height': square.height, 'background-color': square.color, 'cursor': 'pointer'}">
     </div>
     <div v-for="(piece, index) in pieces" :key="index" @click="removePiece(index)"
@@ -14,7 +14,7 @@
 export default {
   name: 'CreatorBoardStandard',
   data: () => ({
-    piece: {}, pieces: []
+    piece: null, pieces: []
   }),
   props: {
     size: {type: Number, required: true},
@@ -25,10 +25,10 @@ export default {
     squares() {
       let squares = [];
       let squareSize = this.width > this.height ? this.size / this.width : this.size / this.height;
-      console.log(squareSize);
       for (let h = 0; h < this.width; h++) {
         for (let w = 0; w < this.height; w++) {
           squares.push({
+            field: this.width * (this.height - w - 1) + h,
             left: h * squareSize + 'px',
             top: w * squareSize + 'px',
             width: squareSize + 'px',
@@ -42,25 +42,23 @@ export default {
   },
   methods: {
     setupPiece(piece, player) {
-      if (piece === null) return this.piece = null;
-      this.piece = {};
-      this.piece.name = piece.name;
-      this.piece.id = piece.id;
-      this.piece.img = piece.img[player - 1];
-      this.piece.player = player;
+      if (piece == null) this.piece = null;
+      else this.piece = {name: piece.name, id: piece.id, img: piece.img[player], color: player};
     },
-    addPiece(left, top) {
-      if (this.piece === null) return;
+    addPiece(left, top, field) {
+      if (this.piece == null) return;
       this.piece.left = left;
       this.piece.top = top;
+      this.piece.field = field
       this.piece.size = this.width > this.height ? this.size / this.width : this.size / this.height + 'px';
       this.pieces.push(this.piece);
-      this.piece = {name: this.piece.name, id: this.piece.id, img: this.piece.img, player: this.piece.player};
+      this.piece = {name: this.piece.name, id: this.piece.id, img: this.piece.img, color: this.piece.color};
     },
     removePiece(index) {
       this.pieces.splice(index, 1);
     },
     getPieces() {
+      console.log(this.pieces);
       return this.pieces;
     }
   }

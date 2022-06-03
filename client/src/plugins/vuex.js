@@ -59,16 +59,16 @@ state.variants = [{
 state.boards = [{
     name: 'Standard', id: 's', players: [2, 3, 4],
     params: [
-        {name: 'Width', id: 'w', values: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], default: 8},
-        {name: 'Height', id: 'h', values: [5, 6, 7, 8, 9, 10, 11, 12, 13, 14], default: 8}
+        {name: 'Width', id: 'w', values: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], value: 8},
+        {name: 'Height', id: 'h', values: [5, 6, 7, 8, 9, 10, 11, 12, 13, 14], value: 8}
     ],
     pieces: [
-        {name: 'Pawn', id: 'p', img: ['pawn_w.png', 'pawn_b.png']},
-        {name: 'Rook', id: 'r', img: ['rook_w.png', 'rook_b.png']},
-        {name: 'Knight', id: 'n', img: ['knight_w.png', 'knight_b.png']},
-        {name: 'Bishop', id: 'b', img: ['bishop_w.png', 'bishop_b.png']},
-        {name: 'Queen', id: 'q', img: ['queen_w.png', 'queen_b.png']},
-        {name: 'King', id: 'k', img: ['king_w.png', 'king_b.png']}
+        {name: 'Pawn', id: 'P', img: ['pawn_w.png', 'pawn_b.png']},
+        {name: 'Rook', id: 'R', img: ['rook_w.png', 'rook_b.png']},
+        {name: 'Knight', id: 'N', img: ['knight_w.png', 'knight_b.png']},
+        {name: 'Bishop', id: 'B', img: ['bishop_w.png', 'bishop_b.png']},
+        {name: 'Queen', id: 'Q', img: ['queen_w.png', 'queen_b.png']},
+        {name: 'King', id: 'K', img: ['king_w.png', 'king_b.png']}
     ]
 }];
 
@@ -87,6 +87,7 @@ export default new Vuex.Store({
     state: state,
     mutations: {
         createVariant(state, variant) {
+            console.log('XD');
             let id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15).replace(',', '');
             localStorage.setItem(id, JSON.stringify(variant));
             let variantList = localStorage.getItem('variants');

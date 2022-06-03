@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-data-table dense hide-default-footer items-per-page="1000" item-key="name"
+    <v-data-table dense hide-default-footer :items-per-page="1000" item-key="name"
                   :headers="headers" :items="items" :single-expand="true" :expanded.sync="expanded">
 
       <!-- Create variant -->
@@ -63,7 +63,7 @@ export default {
   },
   methods: {
     deleteVariant(variantId) {
-      this.$store.dispatch('deleteVariant', variantId);
+      this.$store.commit('deleteVariant', variantId);
     }
   }
 };

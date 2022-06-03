@@ -9,7 +9,9 @@
         <v-divider/>
         <v-stepper-step step="3" :complete="step > 3">Initial position</v-stepper-step>
         <v-divider/>
-        <v-stepper-step step="4">Rules</v-stepper-step>
+        <v-stepper-step step="4" :complete="step > 4">Checkable pieces</v-stepper-step>
+        <v-divider/>
+        <v-stepper-step step="5">Rules</v-stepper-step>
       </v-stepper-header>
 
       <v-stepper-items>
@@ -40,7 +42,7 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer/>
-              <v-btn color="primary" flat @click="goToStep(2)" :disabled="players !== 2">NEXT</v-btn>
+              <v-btn color="primary" text @click="goToStep(2)" :disabled="players !== 2">NEXT</v-btn>
             </v-card-actions>
           </v-card>
         </v-stepper-content>
@@ -52,26 +54,25 @@
             <v-card-text>
               Choose type of board for your variant:
               <v-row class="mt-0 pt-0">
-                <!-- TODO filter board-standard -->
-                <v-col v-for="(board, index) in $store.state.boards" :key="index" cols="12" md="4">
-                  <v-card :color="index === boardIndex ? 'primary' : ''" class="d-flex align-center" height="200"
-                          @click="selectBoard(index)" outlined>
-                    <div class="text-h5 flex-grow-1 text-center">{{ board.name }}</div>
+                <v-col v-for="(b, i) in $store.state.boards" :key="i" cols="12" md="4">
+                  <v-card :color="b.id === board.id ? 'primary' : ''" class="d-flex align-center" height="200"
+                          @click="board = JSON.parse(JSON.stringify(b))" outlined>
+                    <div class="text-h5 flex-grow-1 text-center">{{ b.name }}</div>
                   </v-card>
                 </v-col>
               </v-row>
-              <v-divider v-if="boardIndex !== null" class="mt-4 mb-4"/>
-              <span v-if="boardIndex !== null">Define additional parameters for this board:</span>
-              <v-row v-if="boardIndex !== null" class="mt-0 pt-0">
-                <v-col v-for="(param, index) in boardParams" :key="index" cols="12" md="3">
-                  <v-select :items="param.values" :label="param.name" :value="param.value" v-model="param.value"/>
+              <v-divider v-if="board.id != null" class="mt-4 mb-4"/>
+              <span v-if="board.id != null">Define additional parameters for this board:</span>
+              <v-row v-if="board.id != null" class="mt-0 pt-0">
+                <v-col v-for="(p, i) in board.params" :key="i" cols="12" md="3">
+                  <v-select :items="p.values" :label="p.name" :value="p.value" v-model="p.value"/>
                 </v-col>
               </v-row>
             </v-card-text>
             <v-card-actions>
               <v-spacer/>
-              <v-btn color="white" flat @click="goToStep(1)">BACK</v-btn>
-              <v-btn color="primary" flat @click="goToStep(3)" :disabled="boardIndex === null">NEXT</v-btn>
+              <v-btn color="secondary" text @click="goToStep(1)">BACK</v-btn>
+              <v-btn color="primary" text @click="goToStep(3)" :disabled="board.id === null">NEXT</v-btn>
             </v-card-actions>
           </v-card>
         </v-stepper-content>
@@ -82,8 +83,9 @@
             <v-card-title>Initial position</v-card-title>
             <v-card-text>
               Define initial position for your variant:
-              <v-select outlined class="mt-4 mb-n3" :items="[1, 2]" :label="'Player'"
-                        :value="positionCreator.player" v-model="positionCreator.player"
+              <v-select outlined class="mt-4 mb-n3" item-text="text" item-value="value" :label="'Color'"
+                        :items="[{text: 'White', value: 0}, {text: 'Black', value: 1}]"
+                        :value="positionCreator.color" v-model="positionCreator.color"
                         @change="onPieceClickWhenSettingPosition(null, positionCreator.piece)"/>
               <v-card class="mb-4" outlined>
                 <v-card-subtitle>
@@ -92,37 +94,58 @@
                 </v-card-subtitle>
                 <v-card-text>
                   <v-row class="mt-0 pt-0">
-                    <v-col v-for="(piece, index) in boardPieces" :key="index" cols="12" md="1">
-                      <v-img :src="'/img/' + piece.img[positionCreator.player - 1]"
+                    <v-col v-for="(piece, index) in board.pieces" :key="index" cols="12" md="1">
+                      <v-img :src="'/img/' + piece.img[positionCreator.color]"
                              @click="onPieceClickWhenSettingPosition(piece, index)"
                              :style="{'border': positionCreator.piece === index ? '2px solid #414141' : 'none', 'border-radius': '5px', 'cursor': 'pointer'}"/>
                     </v-col>
                   </v-row>
                 </v-card-text>
               </v-card>
-              <CreatorBoardStandard v-if="boardIndex === 0" :size="600" ref="board"
-                                    :width="boardParams.find(e => e.id === 'w').value"
-                                    :height="boardParams.find(e => e.id === 'h').value"/>
+              <CreatorBoardStandardInitialPosition v-if="board.id === 's'" :size="600" ref="boardInitialPosition"
+                                                   :width="board.params.find(p => p.id === 'w').value"
+                                                   :height="board.params.find(p => p.id === 'h').value"/>
             </v-card-text>
             <v-card-actions>
               <v-spacer/>
-              <v-btn color="white" flat @click="goToStep(2)">BACK</v-btn>
-              <v-btn color="primary" flat @click="goToStep(4)">NEXT</v-btn>
+              <v-btn color="secondary" text @click="goToStep(2)">BACK</v-btn>
+              <v-btn color="primary" text @click="goToStep(4)">NEXT</v-btn>
             </v-card-actions>
           </v-card>
         </v-stepper-content>
 
+        <!-- Checkable pieces -->
         <v-stepper-content step="4">
           <v-card class="ma-0" flat tile>
-            <v-card-title>Rules</v-card-title>
+            <v-card-title>Checkable pieces</v-card-title>
             <v-card-text>
-              Define rules for your variant:
-              <!-- TODO rules -->
+              Define checkable pieces for your variant:
+              <CreatorBoardStandardCheckablePieces v-if="board.id === 's'" :size="600" ref="boardCheckablePieces"
+                                                   :width="board.params.find(p => p.id === 'w').value"
+                                                   :height="board.params.find(p => p.id === 'h').value"/>
             </v-card-text>
             <v-card-actions>
               <v-spacer/>
-              <v-btn color="white" flat @click="goToStep(3)">BACK</v-btn>
-              <v-btn color="primary" flat @click="createVariant()">CREATE</v-btn>
+              <v-btn color="secondary" text @click="goToStep(3)">BACK</v-btn>
+              <v-btn color="primary" text @click="goToStep(5)">NEXT</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-stepper-content>
+
+        <v-stepper-content step="5">
+          <v-card class="ma-0" flat tile>
+            <v-card-title>Rules</v-card-title>
+            <v-card-text>
+              <v-text-field outlined class="mt-4 mb-n3" label="Variant name" v-model="name"/>
+              Define rules for your variant:
+              <v-select outlined class="mt-4 mb-n3" item-text="text" item-value="value" label="Capture all"
+                        :items="[{text: 'On', value: true}, {text: 'Off', value: false}]"
+                        :value="false" v-model="rules.captureAll"/>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer/>
+              <v-btn color="secondary" text @click="goToStep(4)">BACK</v-btn>
+              <v-btn color="primary" text @click="createVariant()">CREATE</v-btn>
             </v-card-actions>
           </v-card>
         </v-stepper-content>
@@ -134,16 +157,20 @@
 </template>
 
 <script>
-import CreatorBoardStandard from './creatorBoards/Standard.vue';
+import CreatorBoardStandardInitialPosition from './creatorBoards/StandardInitialPosition.vue';
+import CreatorBoardStandardCheckablePieces from './creatorBoards/StandardCheckablePieces.vue';
 
 export default {
   name: 'CreateVariantDialog',
-  components: {CreatorBoardStandard},
+  components: {CreatorBoardStandardInitialPosition, CreatorBoardStandardCheckablePieces},
   data: () => ({
     dialog: false, step: 1,
-    players: null, boardIndex: null, boardParams: [], boardPieces: [],
-    positionCreator: {player: 1, piece: null},
-    pieces: []
+    // Step 1, 2
+    players: null, board: {id: null},
+    // Step 3, 4
+    positionCreator: {color: 0, piece: null}, pieces: [],
+    // Step 5
+    rules: {captureAll: false}, name: ''
   }),
   methods: {
     openDialog() {
@@ -151,37 +178,39 @@ export default {
     },
     goToStep(step) {
       if (step === 1) {
-        this.boardIndex = null;
-        this.boardParams = [];
+        this.board = {id: null};
       } else if (step === 2) {
+        this.positionCreator = {color: 0, piece: null};
         this.pieces = [];
-      } else if (step === 3) {
-        // TODO remove rules
       } else if (step === 4) {
-        this.pieces = this.$refs.board.getPieces();
+        this.pieces = this.$refs.boardInitialPosition.getPieces();
+        this.$refs.boardCheckablePieces.setPieces(this.pieces);
       }
       this.step = step;
-    },
-    createVariant() {
-      // TODO save variant in local storage
-      console.log('New variant created');
-      this.dialog = false;
-    },
-    selectBoard(index) {
-      this.boardIndex = index;
-      this.boardParams = this.$store.state.boards[index].params;
-      this.boardParams.forEach(param => param.value = param.default);
-      this.boardPieces = this.$store.state.boards[index].pieces;
     },
     onPieceClickWhenSettingPosition(piece, index) {
       if (this.positionCreator.piece === index) {
         this.positionCreator.piece = null;
-        this.$refs.board.setupPiece(null, this.positionCreator.player);
+        this.$refs.boardInitialPosition.setupPiece(null, this.positionCreator.color);
       } else {
         this.positionCreator.piece = index;
-        this.$refs.board.setupPiece(piece, this.positionCreator.player);
+        this.$refs.boardInitialPosition.setupPiece(piece, this.positionCreator.color);
       }
-    }
+    },
+    createVariant() {
+      // TODO optimize
+      let variant = {name: this.name, players: this.players};
+      variant.board = this.board;
+      variant.pieces = this.pieces;
+      variant.rules = [
+        {id: 'capture-all', value: this.rules.captureAll},
+        {id: 'castling', value: true},
+        {id: 'multimove', value: [1]}
+      ];
+      this.$store.commit('createVariant', variant);
+      this.dialog = false;
+      console.log(variant);
+    },
   },
 };
 </script>
