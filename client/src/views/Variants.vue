@@ -19,7 +19,8 @@
       <!--suppress HtmlUnknownAttribute -->
       <template v-slot:item.actions="{item}">
         <v-icon v-if="item.id != null" color="primary" class="mr-2" @click="deleteVariant(item.id)">mdi-delete</v-icon>
-        <v-icon class="mr-2" color="primary" @click="expanded = expanded.length === 0 ? [item] : []">mdi-information</v-icon>
+        <v-icon class="mr-2" color="primary" @click="expanded = expanded.length === 0 ? [item] : []">mdi-information
+        </v-icon>
       </template>
 
       <!-- Variant description -->
@@ -28,9 +29,10 @@
           <v-card flat tile>
             <v-card-title>{{ item.name }}</v-card-title>
             <v-card-subtitle>{{ item.players }} players, {{ item.board.name }} board</v-card-subtitle>
-            <v-card-text>
-              Variant description.
-            </v-card-text>
+            <v-card-actions>
+              <v-btn outlined class="mt-n3" min-width="100" color="primary" @click="testOffline(item)">TEST OFFLINE</v-btn>
+              <v-spacer/>
+            </v-card-actions>
           </v-card>
         </td>
       </template>
@@ -64,6 +66,11 @@ export default {
   methods: {
     deleteVariant(variantId) {
       this.$store.commit('deleteVariant', variantId);
+    },
+    testOffline(variant) {
+      this.$store.state.game.variant = variant;
+      this.$store.state.game.online = false;
+      this.$router.push('/play-offline');
     }
   }
 };

@@ -10,8 +10,21 @@ describe('Parsers', () => {
     require('./parsers/game-parser');
 });
 
-describe('Boards', () => {
-   require('./board-standard/board');
+describe('Standard Board', () => {
+    require('./board-standard/board-utils');
+    require('./board-standard/amazon');
+    require('./board-standard/archbishop');
+    require('./board-standard/berolina-pawn');
+    require('./board-standard/bishop');
+    require('./board-standard/centaur');
+    require('./board-standard/chancellor');
+    require('./board-standard/king');
+    require('./board-standard/knight');
+    require('./board-standard/nightrider');
+    require('./board-standard/pawn');
+    require('./board-standard/queen');
+    require('./board-standard/rook');
+    require('./board-standard/board');
 });
 
 describe('Routes', () => {

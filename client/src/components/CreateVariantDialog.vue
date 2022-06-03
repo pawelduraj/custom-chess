@@ -209,10 +209,18 @@ export default {
         {id: 'castling', value: true},
         {id: 'multimove', value: [1]}
       ];
+      if (this.rules.captureAll) for (let i = 0; i < variant.pieces.length; i++)
+        variant.pieces[i].checkable = false;
       variant.board.name = variant.board.params.find(p => p.id === 'w').value + ' x ' + variant.board.params.find(p => p.id === 'h').value;
       this.$store.commit('createVariant', variant);
+      this.step = 1;
+      this.players = null;
+      this.board = {id: null};
+      this.positionCreator = {color: 0, piece: null};
+      this.pieces = [];
+      this.rules = {captureAll: false};
+      this.name = '';
       this.dialog = false;
-      console.log(variant);
     },
   },
 };

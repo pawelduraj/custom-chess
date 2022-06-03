@@ -45,3 +45,5 @@ module.exports.STANDARD_STARTING_BOARD = [
     {id: 'K', checkable: true, color: 1, moved: false}, {id: 'B', checkable: false, color: 1, moved: false},
     {id: 'N', checkable: false, color: 1, moved: false}, {id: 'R', checkable: false, color: 1, moved: false}
 ];
+
+module.exports.EMPTY_STARTING_BOARD = new Array(64).fill('-');

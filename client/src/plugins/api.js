@@ -61,6 +61,7 @@ api.listen = async function (update) {
             api.playerId = (api.playerId + 1) % api.game.players.length;
             api.token = api.game.new.tokens[api.playerId];
             localStorage.setItem('game', JSON.stringify({gameId: api.gameId, playerId: api.playerId, token: api.token}));
+            location.reload();
         }
 
         update(api.game);
@@ -83,6 +84,7 @@ api.listenObj = async function (update, Game) {
             api.playerId = (api.playerId + 1) % api.game.players.length;
             api.token = api.game.new.tokens[api.playerId];
             localStorage.setItem('game', JSON.stringify({gameId: api.gameId, playerId: api.playerId, token: api.token}));
+            location.reload();
         }
 
         update(api.game, Game);

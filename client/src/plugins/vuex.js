@@ -8,7 +8,7 @@ let state = {};
 
 state.variants = [{
     name: 'Standard', players: 2,
-    board: {name: '8x8', id: 's', params: [{id: 'w', value: 8}, {id: 'h', value: 8}]},
+    board: {name: '8 x 8', id: 's', params: [{id: 'w', value: 8}, {id: 'h', value: 8}]},
     pieces: [
         {id: 'R', checkable: false, color: 0, field: 0}, {id: 'R', checkable: false, color: 0, field: 7},
         {id: 'N', checkable: false, color: 0, field: 1}, {id: 'N', checkable: false, color: 0, field: 6},
@@ -33,7 +33,7 @@ state.variants = [{
     ]
 }, {
     name: 'Los Alamos', players: 2,
-    board: {name: '6x6', id: 's', params: [{id: 'w', value: 6}, {id: 'h', value: 6}]},
+    board: {name: '6 x 6', id: 's', params: [{id: 'w', value: 6}, {id: 'h', value: 6}]},
     pieces: [
         {id: 'R', checkable: false, color: 0, field: 0}, {id: 'R', checkable: false, color: 0, field: 5},
         {id: 'N', checkable: false, color: 0, field: 1}, {id: 'N', checkable: false, color: 0, field: 4},
@@ -47,6 +47,123 @@ state.variants = [{
         {id: 'P', checkable: false, color: 1, field: 24}, {id: 'P', checkable: false, color: 1, field: 25},
         {id: 'P', checkable: false, color: 1, field: 26}, {id: 'P', checkable: false, color: 1, field: 27},
         {id: 'P', checkable: false, color: 1, field: 28}, {id: 'P', checkable: false, color: 1, field: 29}
+    ],
+    rules: [
+        {id: 'capture-all', value: false},
+        {id: 'multimove', value: [1]}
+    ]
+}, {
+    name: 'Micro Chess', players: 2,
+    board: {name: '4 x 5', id: 's', params: [{id: 'w', value: 4}, {id: 'h', value: 5}]},
+    pieces: [
+        {id: 'R', checkable: false, color: 0, field: 0}, {id: 'B', checkable: false, color: 0, field: 1},
+        {id: 'N', checkable: false, color: 0, field: 2}, {id: 'K', checkable: true, color: 0, field: 3},
+        {id: 'P', checkable: false, color: 0, field: 7}, {id: 'P', checkable: false, color: 1, field: 12},
+        {id: 'K', checkable: true, color: 1, field: 16}, {id: 'N', checkable: false, color: 1, field: 17},
+        {id: 'B', checkable: false, color: 1, field: 18}, {id: 'R', checkable: false, color: 1, field: 19}
+    ],
+    rules: [
+        {id: 'capture-all', value: false},
+        {id: 'multimove', value: [1]}
+    ]
+}, {
+    name: 'Capablanca\'s Chess', players: 2,
+    board: {name: '10 x 8', id: 's', params: [{id: 'w', value: 10}, {id: 'h', value: 8}]},
+    pieces: [
+        {id: 'R', checkable: false, color: 0, field: 0}, {id: 'N', checkable: false, color: 0, field: 1},
+        {id: 'AB', checkable: false, color: 0, field: 2}, {id: 'B', checkable: false, color: 0, field: 3},
+        {id: 'Q', checkable: false, color: 0, field: 4}, {id: 'K', checkable: true, color: 0, field: 5},
+        {id: 'B', checkable: false, color: 0, field: 6}, {id: 'CC', checkable: false, color: 0, field: 7},
+        {id: 'N', checkable: false, color: 0, field: 8}, {id: 'R', checkable: false, color: 0, field: 9},
+        {id: 'P', checkable: false, color: 0, field: 10}, {id: 'P', checkable: false, color: 0, field: 11},
+        {id: 'P', checkable: false, color: 0, field: 12}, {id: 'P', checkable: false, color: 0, field: 13},
+        {id: 'P', checkable: false, color: 0, field: 14}, {id: 'P', checkable: false, color: 0, field: 15},
+        {id: 'P', checkable: false, color: 0, field: 16}, {id: 'P', checkable: false, color: 0, field: 17},
+        {id: 'P', checkable: false, color: 0, field: 18}, {id: 'P', checkable: false, color: 0, field: 19},
+        {id: 'P', checkable: false, color: 1, field: 60}, {id: 'P', checkable: false, color: 1, field: 61},
+        {id: 'P', checkable: false, color: 1, field: 62}, {id: 'P', checkable: false, color: 1, field: 63},
+        {id: 'P', checkable: false, color: 1, field: 64}, {id: 'P', checkable: false, color: 1, field: 65},
+        {id: 'P', checkable: false, color: 1, field: 66}, {id: 'P', checkable: false, color: 1, field: 67},
+        {id: 'P', checkable: false, color: 1, field: 68}, {id: 'P', checkable: false, color: 1, field: 69},
+        {id: 'R', checkable: false, color: 1, field: 70}, {id: 'N', checkable: false, color: 1, field: 71},
+        {id: 'AB', checkable: false, color: 1, field: 72}, {id: 'B', checkable: false, color: 1, field: 73},
+        {id: 'Q', checkable: false, color: 1, field: 74}, {id: 'K', checkable: true, color: 1, field: 75},
+        {id: 'B', checkable: false, color: 1, field: 76}, {id: 'CC', checkable: false, color: 1, field: 77},
+        {id: 'N', checkable: false, color: 1, field: 78}, {id: 'R', checkable: false, color: 1, field: 79}
+    ], rules: [
+        {id: 'capture-all', value: false},
+        {id: 'multimove', value: [1]}
+    ]
+}, {
+    name: 'Perfect Chess', players: 2,
+    board: {name: '8 x 8', id: 's', params: [{id: 'w', value: 8}, {id: 'h', value: 8}]},
+    pieces: [
+        {id: 'CC', checkable: false, color: 0, field: 0}, {id: 'R', checkable: false, color: 0, field: 7},
+        {id: 'AB', checkable: false, color: 0, field: 1}, {id: 'N', checkable: false, color: 0, field: 6},
+        {id: 'Q', checkable: false, color: 0, field: 2}, {id: 'B', checkable: false, color: 0, field: 5},
+        {id: 'AZ', checkable: false, color: 0, field: 3}, {id: 'K', checkable: true, color: 0, field: 4},
+        {id: 'P', checkable: false, color: 0, field: 8}, {id: 'P', checkable: false, color: 0, field: 9},
+        {id: 'P', checkable: false, color: 0, field: 10}, {id: 'P', checkable: false, color: 0, field: 11},
+        {id: 'P', checkable: false, color: 0, field: 12}, {id: 'P', checkable: false, color: 0, field: 13},
+        {id: 'P', checkable: false, color: 0, field: 14}, {id: 'P', checkable: false, color: 0, field: 15},
+        {id: 'CC', checkable: false, color: 1, field: 56}, {id: 'R', checkable: false, color: 1, field: 63},
+        {id: 'AB', checkable: false, color: 1, field: 57}, {id: 'N', checkable: false, color: 1, field: 62},
+        {id: 'Q', checkable: false, color: 1, field: 58}, {id: 'B', checkable: false, color: 1, field: 61},
+        {id: 'AZ', checkable: false, color: 1, field: 59}, {id: 'K', checkable: true, color: 1, field: 60},
+        {id: 'P', checkable: false, color: 1, field: 48}, {id: 'P', checkable: false, color: 1, field: 49},
+        {id: 'P', checkable: false, color: 1, field: 50}, {id: 'P', checkable: false, color: 1, field: 51},
+        {id: 'P', checkable: false, color: 1, field: 52}, {id: 'P', checkable: false, color: 1, field: 53},
+        {id: 'P', checkable: false, color: 1, field: 54}, {id: 'P', checkable: false, color: 1, field: 55}
+    ],
+    rules: [
+        {id: 'capture-all', value: false},
+        {id: 'multimove', value: [1]}
+    ]
+}, {
+    name: 'Berolina Chess', players: 2,
+    board: {name: '8 x 8', id: 's', params: [{id: 'w', value: 8}, {id: 'h', value: 8}]},
+    pieces: [
+        {id: 'R', checkable: false, color: 0, field: 0}, {id: 'R', checkable: false, color: 0, field: 7},
+        {id: 'N', checkable: false, color: 0, field: 1}, {id: 'N', checkable: false, color: 0, field: 6},
+        {id: 'B', checkable: false, color: 0, field: 2}, {id: 'B', checkable: false, color: 0, field: 5},
+        {id: 'Q', checkable: false, color: 0, field: 3}, {id: 'K', checkable: true, color: 0, field: 4},
+        {id: 'BP', checkable: false, color: 0, field: 8}, {id: 'BP', checkable: false, color: 0, field: 9},
+        {id: 'BP', checkable: false, color: 0, field: 10}, {id: 'BP', checkable: false, color: 0, field: 11},
+        {id: 'BP', checkable: false, color: 0, field: 12}, {id: 'BP', checkable: false, color: 0, field: 13},
+        {id: 'BP', checkable: false, color: 0, field: 14}, {id: 'BP', checkable: false, color: 0, field: 15},
+        {id: 'R', checkable: false, color: 1, field: 56}, {id: 'R', checkable: false, color: 1, field: 63},
+        {id: 'N', checkable: false, color: 1, field: 57}, {id: 'N', checkable: false, color: 1, field: 62},
+        {id: 'B', checkable: false, color: 1, field: 58}, {id: 'B', checkable: false, color: 1, field: 61},
+        {id: 'Q', checkable: false, color: 1, field: 59}, {id: 'K', checkable: true, color: 1, field: 60},
+        {id: 'BP', checkable: false, color: 1, field: 48}, {id: 'BP', checkable: false, color: 1, field: 49},
+        {id: 'BP', checkable: false, color: 1, field: 50}, {id: 'BP', checkable: false, color: 1, field: 51},
+        {id: 'BP', checkable: false, color: 1, field: 52}, {id: 'BP', checkable: false, color: 1, field: 53},
+        {id: 'BP', checkable: false, color: 1, field: 54}, {id: 'BP', checkable: false, color: 1, field: 55}
+    ],
+    rules: [
+        {id: 'capture-all', value: false},
+        {id: 'multimove', value: [1]}
+    ]
+}, {
+    name: 'Nightrider Chess', players: 2,
+    board: {name: '8 x 8', id: 's', params: [{id: 'w', value: 8}, {id: 'h', value: 8}]},
+    pieces: [
+        {id: 'R', checkable: false, color: 0, field: 0}, {id: 'R', checkable: false, color: 0, field: 7},
+        {id: 'NR', checkable: false, color: 0, field: 1}, {id: 'NR', checkable: false, color: 0, field: 6},
+        {id: 'B', checkable: false, color: 0, field: 2}, {id: 'B', checkable: false, color: 0, field: 5},
+        {id: 'Q', checkable: false, color: 0, field: 3}, {id: 'K', checkable: true, color: 0, field: 4},
+        {id: 'P', checkable: false, color: 0, field: 8}, {id: 'P', checkable: false, color: 0, field: 9},
+        {id: 'P', checkable: false, color: 0, field: 10}, {id: 'P', checkable: false, color: 0, field: 11},
+        {id: 'P', checkable: false, color: 0, field: 12}, {id: 'P', checkable: false, color: 0, field: 13},
+        {id: 'P', checkable: false, color: 0, field: 14}, {id: 'P', checkable: false, color: 0, field: 15},
+        {id: 'R', checkable: false, color: 1, field: 56}, {id: 'R', checkable: false, color: 1, field: 63},
+        {id: 'NR', checkable: false, color: 1, field: 57}, {id: 'NR', checkable: false, color: 1, field: 62},
+        {id: 'B', checkable: false, color: 1, field: 58}, {id: 'B', checkable: false, color: 1, field: 61},
+        {id: 'Q', checkable: false, color: 1, field: 59}, {id: 'K', checkable: true, color: 1, field: 60},
+        {id: 'P', checkable: false, color: 1, field: 48}, {id: 'P', checkable: false, color: 1, field: 49},
+        {id: 'P', checkable: false, color: 1, field: 50}, {id: 'P', checkable: false, color: 1, field: 51},
+        {id: 'P', checkable: false, color: 1, field: 52}, {id: 'P', checkable: false, color: 1, field: 53},
+        {id: 'P', checkable: false, color: 1, field: 54}, {id: 'P', checkable: false, color: 1, field: 55}
     ],
     rules: [
         {id: 'capture-all', value: false},

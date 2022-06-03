@@ -9,29 +9,29 @@ function getAllAttackingFields(from, board, variant) {
     let moves = [];
 
     if (color === 0) {
-        if (0 <= positionToField(x, y + 1, w) && positionToField(x, y + 1, w) < max && isPositionEmpty(x, y + 1, w, board))
-            moves.push(positionToField(x, y + 1, w));
+        if (positionToField(x, y + 1, w, h) !== -1 && isPositionEmpty(x, y + 1, w, board))
+            moves.push(positionToField(x, y + 1, w, h));
 
-        if (0 <= positionToField(x, y + 2, w) && positionToField(x, y + 2, w) < max && isPositionEmpty(x, y + 2, w, board) && moved === false)
-            moves.push(positionToField(x, y + 2, w));
+        if (positionToField(x, y + 2, w, h) !== -1 && isPositionEmpty(x, y + 2, w, board) && moved === false)
+            moves.push(positionToField(x, y + 2, w, h));
 
-        if (0 <= positionToField(x + 1, y + 1, w) && positionToField(x + 1, y + 1, w) < max && isEnemyAtPosition(x + 1, y + 1, w, board, color))
-            moves.push(positionToField(x + 1, y + 1, w));
+        if (positionToField(x + 1, y + 1, w, h) !== -1 && isEnemyAtPosition(x + 1, y + 1, w, board, color))
+            moves.push(positionToField(x + 1, y + 1, w, h));
 
-        if (0 <= positionToField(x - 1, y + 1, w) && positionToField(x - 1, y + 1, w) < max && isEnemyAtPosition(x - 1, y + 1, w, board, color))
-            moves.push(positionToField(x - 1, y + 1, w));
+        if (positionToField(x - 1, y + 1, w, h) !== -1 && isEnemyAtPosition(x - 1, y + 1, w, board, color))
+            moves.push(positionToField(x - 1, y + 1, w, h));
     } else if (color === 1) {
-        if (0 <= positionToField(x, y - 1, w) && positionToField(x, y - 1, w) < max && isPositionEmpty(x, y - 1, w, board))
-            moves.push(positionToField(x, y - 1, w));
+        if (positionToField(x, y - 1, w, h) !== -1 && isPositionEmpty(x, y - 1, w, board))
+            moves.push(positionToField(x, y - 1, w, h));
 
-        if (0 <= positionToField(x, y - 2, w) && positionToField(x, y - 2, w) < max && isPositionEmpty(x, y - 2, w, board) && moved === false)
-            moves.push(positionToField(x, y - 2, w));
+        if (positionToField(x, y - 2, w, h) !== -1 && isPositionEmpty(x, y - 2, w, board) && moved === false)
+            moves.push(positionToField(x, y - 2, w, h));
 
-        if (0 <= positionToField(x + 1, y - 1, w) && positionToField(x + 1, y - 1, w) < max && isEnemyAtPosition(x + 1, y - 1, w, board, color))
-            moves.push(positionToField(x + 1, y - 1, w));
+        if (positionToField(x + 1, y - 1, w, h) !== -1 && isEnemyAtPosition(x + 1, y - 1, w, board, color))
+            moves.push(positionToField(x + 1, y - 1, w, h));
 
-        if (0 <= positionToField(x - 1, y - 1, w) && positionToField(x - 1, y - 1, w) < max && isEnemyAtPosition(x - 1, y - 1, w, board, color))
-            moves.push(positionToField(x - 1, y - 1, w));
+        if (positionToField(x - 1, y - 1, w, h) !== -1 && isEnemyAtPosition(x - 1, y - 1, w, board, color))
+            moves.push(positionToField(x - 1, y - 1, w, h));
     }
 
     return moves;

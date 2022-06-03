@@ -1,4 +1,5 @@
-module.exports.positionToField = (x, y, w) => {
+module.exports.positionToField = (x, y, w, h) => {
+    if (x < 0 || x >= w || y < 0 || y >= h) return -1;
     return x + y * w;
 };
 

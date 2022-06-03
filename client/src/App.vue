@@ -37,7 +37,7 @@
         <v-card-title>Enter your name</v-card-title>
         <v-card-text>
           <v-text-field prepend-icon="mdi-account" counter="16" dense filled rounded class="mt-2 mb-n2"
-                        v-model="name" @input="saveName()"/>
+                        v-model="name" @input="saveName()" @keyup.enter="dialog = name.trim().length < 3 || name.trim().length > 16"/>
         </v-card-text>
         <v-card-actions>
           <v-spacer/>

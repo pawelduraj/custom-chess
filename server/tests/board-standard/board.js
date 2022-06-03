@@ -5,7 +5,7 @@ const {isMoveValid, getAllPossibleMoves, goToNextTurnAndReturnGame} = require('.
 const makeValidMoveAndReturnBoard = require('../../utils/board-standard/board-valid-move-maker');
 const {STANDARD_VARIANT, STANDARD_STARTING_BOARD} = require('../consts');
 
-describe('Standard Board', () => {
+describe('General', () => {
     it('should be invalid to make move from place without piece', () => {
         let board = [...STANDARD_STARTING_BOARD], variant = {...STANDARD_VARIANT};
         expect(isMoveValid({from: 30, to: 31, promote: '-'}, board, variant)).to.be.false;
