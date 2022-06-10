@@ -10,5 +10,5 @@ module.exports = defineConfig({
     fixturesFolder: 'tests/e2e/cypress/fixtures',
     downloadsFolder: 'tests/e2e/cypress/downloads',
     viewportWidth: 1366,
-    viewportHeight: 768
+    viewportHeight: 960
 });

@@ -23,3 +23,13 @@ Custom Chess is a platform for creating and playing custom chess variants.
 7. Run `npm install` in the server directory.
 8. Run `npm start` in the server directory.
 9. Go to `http://localhost:3000` in your browser and discover new chess variants.
+
+---
+
+## Tests
+
+| Directory | Command | Description |
+| --- | --- | --- |
+| `server` | `npm run test` | Runs tests for the server. |
+| `client` | `npm run test:unit` | Runs unit tests for the client. |
+| `client` | `npm run test:e2e` | Runs end-to-end tests for the client. |

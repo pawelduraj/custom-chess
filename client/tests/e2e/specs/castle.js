@@ -1,6 +1,6 @@
 // noinspection JSUnresolvedFunction
 
-describe('Fool\'s Mate', () => {
+describe('Castle', () => {
     before(() => {
         cy.setUserName('JSON');
         cy.goToNewGame();
