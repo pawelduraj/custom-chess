@@ -11,7 +11,8 @@ export default {
     row: Number,
     col: Number,
     image: {String, Number},
-    reset: Boolean
+    reset: Boolean,
+    n: Number
   },
   watch: {
     reset() {
