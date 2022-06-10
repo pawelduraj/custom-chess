@@ -23,6 +23,7 @@ import {perpetualCheck, mateANDpat} from "@/scripts/chessboard/endConditions";
 import EndScreen from "@/components/EndScreen";
 
 export default {
+
   name: "ChessBoard",
 
   props: {
@@ -40,6 +41,7 @@ export default {
     let game_controll = this.Load(this.variant);
 
     return {
+      s: "",
       game_controll,
       drawAct: false
     }
@@ -160,6 +162,8 @@ export default {
           }
         },
         move(value) {
+          this.s += ", " + ((this.getRowPaintIdx(value.row)) * 8 + (this.getColPaintIdx(value.col))).toString();
+          console.log(this.s);
           this.game_controll.move(value, this.game_controll.myTeam);
         },
         getRowPaintIdx(row){
@@ -194,7 +198,7 @@ export default {
 <template>
   <div id="chessBoard">
     <div class="row_chess" v-for="row in game_controll.game.get_rows()" :key= "getRowPaintIdx(row)">
-      <Field v-for="col in game_controll.game.get_cols()" :ref="(getRowPaintIdx(row) - 1) * 8 + (getColPaintIdx(col) - 1)" :key=col :row=getRowPaintIdx(row)-1
+      <Field v-for="col in game_controll.game.get_cols()" :ref="(getRowPaintIdx(row) - 1) * 8 + (getColPaintIdx(col) - 1)" :n ="(getRowPaintIdx(row) - 1) * 8 + (getColPaintIdx(col) - 1)" :key=col :row=getRowPaintIdx(row)-1
              :col=getColPaintIdx(col)-1
              :image="game_controll.game.get_image(getRowPaintIdx(row) - 1, getColPaintIdx(col) - 1)" :reset=game_controll.reset @childToParent="move"/>
     </div>
