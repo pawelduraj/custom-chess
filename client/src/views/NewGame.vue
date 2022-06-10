@@ -9,15 +9,15 @@
         <v-row class="mt-3 mb-6">
           <v-col cols="12" md="4">
             <v-select outlined hide-details prepend-icon="mdi-web" label="Mode"
-                      :items="['Online', 'Offline']" v-model="mode"/>
+                      :items="['Online', 'Offline']" v-model="mode" id="new-game-mode"/>
           </v-col>
           <v-col cols="12" md="4">
             <v-select outlined hide-details prepend-icon="mdi-checkerboard" label="Variant"
-                      :items="variants" v-model="variant" item-text="name" return-object/>
+                      :items="variants" v-model="variant" item-text="name" return-object id="new-game-variant"/>
           </v-col>
           <v-col cols="12" md="4" v-if="mode === 'Online'">
             <v-select outlined hide-details prepend-icon="mdi-chess-king" label="Color"
-                      :items="['Random', 'White', 'Black']" value="Random" v-model="color"/>
+                      :items="['Random', 'White', 'Black']" value="Random" v-model="color" id="new-game-color"/>
           </v-col>
         </v-row>
         Game time:
@@ -34,7 +34,9 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer/>
-        <v-btn large min-width="120" color="primary" @click="createNewGame()" :disabled="disabled">CREATE</v-btn>
+        <v-btn large min-width="120" color="primary" @click="createNewGame()" :disabled="disabled" id="new-game-create">
+          CREATE
+        </v-btn>
         <v-spacer/>
       </v-card-actions>
     </v-card>

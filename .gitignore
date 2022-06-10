@@ -17,3 +17,6 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+# Cypress - E2E tests
+cypress
