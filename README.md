@@ -2,6 +2,8 @@
 
 Custom Chess is a platform for creating and playing custom chess variants.
 
+> NOTE: Project is still in the development process, but no one is currently developing it.
+
 ---
 
 ## Installation
